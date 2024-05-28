@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import cn from "@/utils/tailwind-merge";
+import { cn } from "@/utils";
 import { SpinnerCircular } from "spinners-react";
+import { ButtonProps } from "@/types/form-types";
 
 
 const buttonVariants = cva("text-base", {
@@ -11,9 +12,9 @@ const buttonVariants = cva("text-base", {
       cancel: "bg-gray-500",
     },
     size: {
-      sm: "px-2 py-2",
-      md: "px-4 py-2",
-      lg: "px-6 py-3",
+      sm: "px-2 py-2 text-sm",
+      md: "px-4 py-2 text-sm",
+      lg: "px-6 py-3 text-sm",
     },
     fullWidth: {
       true: "w-full",
@@ -41,21 +42,10 @@ const buttonVariants = cva("text-base", {
   },
 });
 
-
-type ButtonProps = {
-    variant: "primary" | "secondary" | "cancel",
-    size: "sm" | "md" | "lg",
-    className?: string,
-    title: string,
-    fullWidth?: boolean,
-    disabled?: boolean,
-    isLoading?: boolean,
-    loadingText?: string
-}
-
 export default function Button({
   variant,
   size,
+  type,
   className,
   title,
   fullWidth,
@@ -65,8 +55,8 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      type="button"
-      className={cn(
+      type={type}
+      className={cn('flex justify-center items-center',
         buttonVariants({
           variant,
           size,
@@ -79,7 +69,7 @@ export default function Button({
     >
       {isLoading && (
         <SpinnerCircular
-          size={28}
+          size={15}
           thickness={140}
           speed={180}
           color="white"
