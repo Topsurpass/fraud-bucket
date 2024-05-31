@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import Button from "@/components/ui/Buttons";
 import { z } from "zod";
 import { InputTpyes } from "@/types/form-types";
 import { Input } from "@/components/ui/input";
@@ -13,20 +12,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ReactNode } from "react";
 
 
 type DynamicFormProps = {
   inputs: InputTpyes[];
   onSubmit: (data: Record<string, any>) => void;
+  children: ReactNode;
 };
 
-export function DynamicForm({ inputs, onSubmit }: DynamicFormProps) {
-
+export function DynamicForm({ inputs, onSubmit, children }: DynamicFormProps) {
   // Type all inputs in an array of objects
   const formSchema = z.object(
     Object.fromEntries(
-      inputs.map((input) => [input.name, input.validationSchema])
-    )
+      inputs.map((input) => [input.name, input.validationSchema]),
+    ),
   );
 
   //Give all inputs a default value
@@ -37,7 +37,10 @@ export function DynamicForm({ inputs, onSubmit }: DynamicFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full space-y-3 text-white"
+      >
         {inputs.map((input, idx) => (
           <FormField
             key={idx}
@@ -47,15 +50,22 @@ export function DynamicForm({ inputs, onSubmit }: DynamicFormProps) {
               <FormItem>
                 <FormLabel>{input.label}</FormLabel>
                 <FormControl>
-                  <Input placeholder={input.placeholder} {...field} type={ input.type} />
+                  <Input
+                    placeholder={input.placeholder}
+                    {...field}
+                    type={input.type}
+                    className="text-black"
+                  />
                 </FormControl>
-                <FormDescription>{input.description}</FormDescription>
-                  <FormMessage/>
+                <FormDescription className="text-white">
+                  {input.description}
+                </FormDescription>
+                <FormMessage />
               </FormItem>
             )}
           />
         ))}
-        <Button variant="primary" type="submit" title="Submit" size="md" className="rounded" isLoading={false} loadingText="Please wait..." />
+        {children}
       </form>
     </Form>
   );

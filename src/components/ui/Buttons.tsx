@@ -7,7 +7,7 @@ import { ButtonProps } from "@/types/form-types";
 const buttonVariants = cva("text-base", {
   variants: {
     variant: {
-      primary: "bg-green-500 text-white",
+      primary: "bg-blue-500 text-white",
       secondary: "bg-red-500 text-white",
       cancel: "bg-gray-500",
     },
