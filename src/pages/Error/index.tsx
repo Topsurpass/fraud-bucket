@@ -15,7 +15,7 @@ export default function ErrorPage() {
 				<p>{`Page ${error.statusText.toLocaleLowerCase()}`}</p>
 			</p>
 			<Link
-				to={"/"}
+				to={"/login"}
 				className="mt-3 rounded-md border bg-red-500 px-5 py-1 text-white hover:bg-red-700"
 			>
 				Return to home
