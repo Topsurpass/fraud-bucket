@@ -1,82 +1,73 @@
-import { AiFillCalendar } from 'react-icons/ai';
-import { PiGitBranchBold } from 'react-icons/pi';
-import { GrCheckmark } from 'react-icons/gr';
-import {
-    BsQuestionLg,
-    BsFilm,
-    BsFillFileEarmarkTextFill,
-} from 'react-icons/bs';
-import { FaGraduationCap } from 'react-icons/fa';
-import { SiWechat } from 'react-icons/si';
-import { BiSolidServer, BiSolidBook } from 'react-icons/bi';
-import { LiaGreaterThanEqualSolid } from 'react-icons/lia';
-import { GiSpanner } from 'react-icons/gi';
-import { MdGroups } from 'react-icons/md';
+import { GrTransaction } from "react-icons/gr";
+import { IoIosBriefcase, IoMdAnalytics } from "react-icons/io";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { MdGroups, MdOutlineSettings } from "react-icons/md";
+import { TfiDashboard } from "react-icons/tfi";
+import { IoMoonSharp } from "react-icons/io5";
+import { WiDaySunny } from "react-icons/wi";
+import { IoLaptopOutline } from "react-icons/io5";
+
 
 export const navLinks = [
-    {
-        name: 'My planning',
-        path: '/planning/me',
-        icon: <AiFillCalendar />,
-    },
-    {
-        name: 'Projects',
-        path: '/projects/current',
-        icon: <PiGitBranchBold />,
-    },
-    {
-        name: 'QA Reviews I can make',
-        path: '/corrections/to_review',
-        icon: <GrCheckmark />,
-    },
-    {
-        name: 'Evaluation Quizzes',
-        path: '/dashboards/my_current_evaluation_quizzes',
-        icon: <BsQuestionLg />,
-    },
-    {
-        name: 'Curriculums',
-        path: '/dashboards/my_curriculums',
-        icon: <FaGraduationCap />,
-    },
-    {
-        name: 'Concepts',
-        path: '/concepts',
-        icon: <BsFillFileEarmarkTextFill />,
-    },
-    {
-        name: 'Conference rooms',
-        path: '/dashboards/video_rooms',
-        icon: <SiWechat />,
-    },
-    {
-        name: 'Servers',
-        path: '/servers',
-        icon: <BiSolidServer />,
-    },
-    {
-        name: 'Sandboxes',
-        path: '/user_containers/current',
-        icon: <LiaGreaterThanEqualSolid />,
-    },
-    {
-        name: 'Tools',
-        path: '/my_tools',
-        icon: <GiSpanner />,
-    },
-    {
-        name: 'Video on Demands',
-        path: '/dashboards/videos',
-        icon: <BsFilm />,
-    },
-    {
-        name: 'Peers',
-        path: '/peers',
-        icon: <MdGroups />,
-    },
-    {
-        name: 'Captains log',
-        path: '/my_captain_log',
-        icon: <BiSolidBook />,
-    },
+	{
+		name: "Dashboard",
+		path: "/dashboard",
+		icon: <TfiDashboard />,
+	},
+	{
+		name: "Transactions",
+		path: "/transactions",
+		icon: <GrTransaction />,
+	},
+	{
+		name: "Cases",
+		path: "/cases",
+		icon: <IoIosBriefcase />,
+	},
+	{
+		name: "Files",
+		path: "/files",
+		icon: <SiMicrosoftexcel />,
+	},
+	{
+		name: "Analysis",
+		path: "/analysis",
+		icon: <IoMdAnalytics />,
+	},
+	{
+		name: "Collaboration",
+		path: "/collaboration",
+		icon: <MdGroups />,
+	},
+	{
+		name: "Settings",
+		path: "/settings",
+		icon: <MdOutlineSettings />,
+	},
+];
+
+export const Links = [
+	{
+		label: "My Profile",
+		href: "/profile",
+	},
+	{
+		label: "Change Password",
+		href: "/profile/change_password",
+	},
+];
+
+export const dayAndNight = [
+	{
+		label: "Light",
+		icon: <WiDaySunny />,
+	},
+	{
+		label: "Dark",
+		icon: <IoMoonSharp />,
+	},
+	{
+		label: "Sytem",
+		icon: <IoLaptopOutline />,
+	},
 ];

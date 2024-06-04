@@ -1,13 +1,19 @@
 import { DynamicForm } from "@/components/features/Form";
-import { inputFields } from "@/pages/Home/input-field-data";
+import { inputFields } from "@/pages/(public)/Login/input-field-data";
 import Button from "@/components/ui/Buttons";
 import Logo from "@/components/ui/logo";
+import { useNavigate } from "react-router-dom";
 
-function handleSubmit(data: Record<string, any>) {
-	console.log(data);
-}
+
 
 export default function HomePage() {
+	const navigate = useNavigate();
+
+
+	function handleSubmit(data: Record<string, any>) {
+		alert(`Welcome ${data.Email}`);
+		navigate('/dashboard')
+	}
 	return (
 		<section className="flex  w-full  flex-col items-center justify-center bg-gradient-to-br from-etzBlue-800 via-black to-etzBlue-500 md:flex-row md:justify-evenly">
 			<div className=" hidden text-white md:flex md:flex-col">
