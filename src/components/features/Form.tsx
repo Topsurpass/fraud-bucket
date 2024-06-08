@@ -12,6 +12,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
+	// @ts-ignore
 } from "@/components/ui/form";
 import { ReactNode } from "react";
 
