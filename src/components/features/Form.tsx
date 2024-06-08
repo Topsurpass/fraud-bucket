@@ -11,7 +11,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { ReactNode } from "react";
 
 type DynamicFormProps = {
