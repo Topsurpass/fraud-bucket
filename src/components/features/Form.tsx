@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { InputTpyes } from "@/types/form-types";
 import { Input } from "@/components/ui/input";
-// @ts-ignore
 import {
 	Form,
 	FormControl,
@@ -12,7 +11,6 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	// @ts-ignore
 } from "@/components/ui/form";
 import { ReactNode } from "react";
 
