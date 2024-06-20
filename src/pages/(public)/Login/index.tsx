@@ -4,15 +4,31 @@ import Button from "@/components/ui/Buttons";
 import Logo from "@/components/ui/logo";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function HomePage() {
 	const navigate = useNavigate();
 
+	async function handleSubmit(data: Record<string, any>) {
+		try {
+			const response = await fetch("http://localhost:3000/signin", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
 
-	function handleSubmit(data: Record<string, any>) {
-		alert(`Welcome ${data.Email}`);
-		navigate('/dashboard')
+			const responseData = await response.json();
+			if (!response.ok) {
+				alert(`${responseData.error}`);
+				return;
+			}
+
+			// After successful login, perform actions like alerting the user and navigating
+			alert(`Welcome ${responseData.data}`);
+			navigate("/dashboard");
+		} catch (error) {
+			alert(`Error ${error}`);
+		}
 	}
 	return (
 		<section className="flex  w-full  flex-col items-center justify-center bg-gradient-to-br from-etzBlue-800 via-black to-etzBlue-500 md:flex-row md:justify-evenly">

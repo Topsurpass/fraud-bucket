@@ -12,16 +12,18 @@ export type InputTpyes = {
 
 
 export type ButtonProps = {
-    variant: "primary" | "secondary" | "cancel",
-    size: "sm" | "md" | "lg",
-    type: "submit" | "button" | "reset",
-    className?: string,
-    title: string,
-    fullWidth?: boolean,
-    disabled?: boolean,
-    isLoading?: boolean,
-    loadingText?: string
-}
+	variant: "primary" | "secondary" | "cancel";
+	size: "sm" | "md" | "lg";
+	type: "submit" | "button" | "reset";
+	className?: string;
+	title: string;
+	fullWidth?: boolean;
+	disabled?: boolean;
+	isLoading?: boolean;
+	loadingText?: string;
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
+	icon?: React.ReactNode;
+};
 
 export type FormDataProps = {
   username: string;

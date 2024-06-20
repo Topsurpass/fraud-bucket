@@ -7,7 +7,7 @@ import { ButtonProps } from "@/types/form-types";
 const buttonVariants = cva("text-base", {
   variants: {
     variant: {
-      primary: "bg-blue-500 text-white",
+      primary: "bg-etzBlue-500 text-white",
       secondary: "bg-red-500 text-white",
       cancel: "bg-gray-500",
     },
@@ -52,32 +52,38 @@ export default function Button({
   disabled,
   isLoading,
   loadingText,
+  onClick,
+  icon
 }: ButtonProps) {
   return (
-    <button
-      type={type}
-      className={cn('flex justify-center items-center',
-        buttonVariants({
-          variant,
-          size,
-          className,
-          fullWidth,
-          disabled,
-          loading: isLoading,
-        })
-      )}
-    >
-      {isLoading && (
-        <SpinnerCircular
-          size={15}
-          thickness={140}
-          speed={180}
-          color="white"
-          secondaryColor="rgba(0, 0, 0, 0.44)"
-          className="mr-2"
-        />
-      )}
-      {isLoading ? loadingText : title}
-    </button>
+		<button
+			type={type}
+			className={cn(
+				"flex items-center justify-center",
+				buttonVariants({
+					variant,
+					size,
+					className,
+					fullWidth,
+					disabled,
+					loading: isLoading,
+				}),
+			)}
+			onClick={onClick}
+			disabled={disabled || isLoading}
+		>
+			{isLoading && (
+				<SpinnerCircular
+					size={15}
+					thickness={140}
+					speed={180}
+					color="white"
+					secondaryColor="rgba(0, 0, 0, 0.44)"
+					className="mr-2"
+				/>
+			)}
+			{isLoading ? loadingText : title}
+			{icon && <span className="text-xl">{icon}</span>}
+		</button>
   );
 }
