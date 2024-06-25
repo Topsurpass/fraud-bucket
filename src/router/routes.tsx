@@ -8,6 +8,7 @@ import Cases from "@/pages/(private)/Cases";
 import Files from "@/pages/(private)/Files";
 import Settings from "@/pages/(private)/Settings";
 import Collaboration from "@/pages/(private)/Collaboration";
+import ProtectedRoute from "@/router/ProtectedRoutes";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -16,7 +17,11 @@ export const router = createBrowserRouter([
 		element: <HomePage />,
 	},
 	{
-		element: <DashboardLayout />,
+		element: (
+			<ProtectedRoute>
+				<DashboardLayout />
+			</ProtectedRoute>
+		),
 		children: [
 			{
 				path: "/dashboard",

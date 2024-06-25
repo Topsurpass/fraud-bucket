@@ -2,13 +2,20 @@ import { DynamicForm } from "@/components/features/Form";
 import { inputFields } from "@/pages/(public)/Login/input-field-data";
 import Button from "@/components/ui/Buttons";
 import Logo from "@/components/ui/logo";
+import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function HomePage() {
 	const navigate = useNavigate();
+	const { toast } = useToast();
+	const [loading, setLoading] = useState<boolean>(false);
+	const { login } = useAuth();
 
 	async function handleSubmit(data: Record<string, any>) {
 		try {
+			setLoading(true);
 			const response = await fetch("http://localhost:3000/signin", {
 				method: "POST",
 				headers: {
@@ -19,15 +26,30 @@ export default function HomePage() {
 
 			const responseData = await response.json();
 			if (!response.ok) {
-				alert(`${responseData.error}`);
+				setLoading(false);
+				toast({
+					title: "Uh oh! Something went wrong.",
+					description: `${responseData.error}`,
+					className: "bg-red-500 text-white h-[70px]",
+				});
 				return;
 			}
-
-			// After successful login, perform actions like alerting the user and navigating
-			alert(`Welcome ${responseData.data}`);
+			toast({
+				title: "Sign in Successful",
+				description: `Welcome ${responseData.user.email}`,
+				className: "bg-green-500 text-white h-[70px]",
+			});
+			const { accessToken, user } = responseData;
+			login(accessToken, user);
 			navigate("/dashboard");
 		} catch (error) {
-			alert(`Error ${error}`);
+			toast({
+				title: "Uh oh! Something went wrong.",
+				description: `Server Error !`,
+				className: "bg-red-500 text-white",
+			});
+		} finally {
+			setLoading(false);
 		}
 	}
 	return (
@@ -64,7 +86,7 @@ export default function HomePage() {
 								size="lg"
 								fullWidth
 								className="rounded"
-								isLoading={false}
+								isLoading={loading}
 								loadingText="Please wait..."
 							/>
 						}
