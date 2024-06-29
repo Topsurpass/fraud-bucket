@@ -10,7 +10,7 @@ export function CardCompo({ className, children, ...props }: CardProps) {
 	return (
 		<Card
 			className={cn(
-				"flex flex-col items-center justify-center bg-etzBlue-800 text-white",
+				"flex flex-col  justify-center bg-etzBlue-800 text-white",
 				className,
 			)}
 			{...props}

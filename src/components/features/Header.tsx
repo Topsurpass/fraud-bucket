@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Links, dayAndNight } from "@/data/menu-data";
+import { useNavigate } from "react-router-dom";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -16,6 +17,8 @@ import {
 import { Link } from "react-router-dom";
 import { ReactNode } from "react";
 import { cn } from "@/utils";
+import { jwtDecode } from 'jwt-decode';
+import { useAuth } from "@/context/AuthContext";
 
 type ProfileProps = {
 	triggerIcon: ReactNode;
@@ -23,8 +26,25 @@ type ProfileProps = {
 	contentClass?: string;
 };
 
+type jwtDecodeProps = {
+	userId?: string,
+	name: string,
+	jobTitle: string,
+	iat?: number,
+	exp?: number
+}
 export default function Header() {
-	const [isOpen, setIsOpen] = useState<Boolean>(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const token = localStorage.getItem("token");
+	let decoded: jwtDecodeProps | null = null;
+	const navigate = useNavigate();
+	if (token) decoded = jwtDecode(token);
+	const { logout } = useAuth();
+	const handleLogout = () => {
+		logout();
+		navigate('/login');
+	}
+
 	return (
 		<header className="flex w-full flex-col">
 			<div className="flex w-full items-center justify-between">
@@ -75,9 +95,9 @@ export default function Header() {
 										className="w-[40px] rounded-full"
 									/>
 									<div>
-										<p>Olowosuyi Temitope</p>
+										<p>{ decoded && decoded.name }</p>
 										<p className="text-[12px]">
-											Fraud analyst
+											{ decoded && decoded.jobTitle }
 										</p>
 									</div>
 								</div>
@@ -92,7 +112,7 @@ export default function Header() {
 										</Link>
 									))}
 								</div>
-								<button className="flex w-full items-center gap-3 hover:text-etzBlue-500">
+								<button className="flex w-full items-center gap-3 hover:text-etzBlue-500" onClick={handleLogout}>
 									<MdLogout className="text-xl" /> Logout
 								</button>
 							</>

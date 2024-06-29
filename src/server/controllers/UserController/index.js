@@ -1,20 +1,21 @@
 import bcrypt from "bcrypt";
 import prisma from "../../utils/db.js";
 import jwt from "jsonwebtoken";
+import { validateFields } from "../../utils/helpers.js";
 
 function generateAccessToken(user) {
 	return jwt.sign(
-		{ userId: user.id, email: user.email },
+		{ userId: user.id, name: user.name, jobTitle: user.job, email: user.email },
 		process.env.ACCESS_TOKEN_SECRET,
-		{ expiresIn: "1m" },
+		{ expiresIn: "15m" },
 	);
 }
 
 function generateRefreshToken(user) {
 	return jwt.sign(
-		{ userId: user.id, email: user.email },
+		{ userId: user.id, name: user.name, jobTitle: user.job, email: user.email },
 		process.env.REFRESH_TOKEN_SECRET,
-		{ expiresIn: "5m" },
+		{ expiresIn: "1d" },
 	);
 }
 export default class UserController {
@@ -26,15 +27,10 @@ export default class UserController {
 	 */
 
 	static async signUp(req, res) {
-		const email = req.body ? req.body.email : null;
-		const password = req.body ? req.body.password : null;
+		const { name, job, email, password } = req.body;
+		const requiredFields = ['name', 'job', 'email', 'password'];
 
-		if (!email) {
-			res.status(400).json({ error: "Missing email" });
-			return;
-		}
-		if (!password) {
-			res.status(400).json({ error: "Missing password" });
+		if (!validateFields(req, res, requiredFields)) {
 			return;
 		}
 		const user = await prisma.user.findUnique({
@@ -47,6 +43,8 @@ export default class UserController {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const newUser = await prisma.user.create({
 			data: {
+				name,
+				job,
 				email,
 				password: hashedPassword,
 			},
@@ -84,7 +82,6 @@ export default class UserController {
 			res.status(400).json({ error: "Incorrect password !" });
 			return;
 		}
-		// Add more info you would love to pass to the frontend when fully authorized
 		const accessToken = generateAccessToken(user);
 		const refreshToken = generateRefreshToken(user);
 
@@ -101,18 +98,11 @@ export default class UserController {
 		res.status(200).json({
 			accessToken,
 			refreshToken,
-			user: { id: user.id, email: user.email },
+			user: { id: user.id, name: user.name, job: user.job, email: user.email },
 		});
-
-		// res.status(200).json({
-		// 	user: { id: user.id, email: user.email },
-		// 	accessToken,
-		// 	refreshToken,
-		// });
 	}
 
 	static async getnewToken(req, res) {
-		// const { token } = req.body;
 		const token = req.cookies.refreshToken;
 
 		if (!token) {
@@ -137,9 +127,14 @@ export default class UserController {
 				data: { refreshToken: newRefreshToken },
 			});
 
+			res.cookie('refreshToken', newRefreshToken, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'strict',
+			});
+
 			res.status(200).json({
 				accessToken,
-				// refreshToken: newRefreshToken,
 			});
 		} catch (error) {
 			res.status(403).json({ error: "Invalid refresh token" });

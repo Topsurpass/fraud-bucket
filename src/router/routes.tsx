@@ -25,31 +25,31 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: "/dashboard",
-				element: <Dashboard />,
+				element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
 			},
 			{
 				path: "/transactions",
-				element: <Transactions />,
+				element: <ProtectedRoute><Transactions /></ProtectedRoute>,
 			},
 			{
 				path: "/cases",
-				element: <Cases />,
+				element: <ProtectedRoute><Cases /></ProtectedRoute>
 			},
 			{
 				path: "/files",
-				element: <Files />,
+				element: <ProtectedRoute><Files /></ProtectedRoute>,
 			},
 			{
 				path: "/analysis",
-				element: <Analysis />,
+				element: <ProtectedRoute><Analysis /></ProtectedRoute>,
 			},
 			{
 				path: "/collaboration",
-				element: <Collaboration />,
+				element: <ProtectedRoute><Collaboration /></ProtectedRoute>,
 			},
 			{
 				path: "/settings",
-				element: <Settings />,
+				element: <ProtectedRoute><Settings /></ProtectedRoute>,
 			},
 		],
 		errorElement: <ErrorPage />,

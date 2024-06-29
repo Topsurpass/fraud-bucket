@@ -21,6 +21,7 @@ export default function HomePage() {
 				headers: {
 					"Content-Type": "application/json",
 				},
+				credentials: "include",
 				body: JSON.stringify(data),
 			});
 
@@ -36,7 +37,7 @@ export default function HomePage() {
 			}
 			toast({
 				title: "Sign in Successful",
-				description: `Welcome ${responseData.user.email}`,
+				description: `Welcome ${responseData.user.name}`,
 				className: "bg-green-500 text-white h-[70px]",
 			});
 			const { accessToken, user } = responseData;
