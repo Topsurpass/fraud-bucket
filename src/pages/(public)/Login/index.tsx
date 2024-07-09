@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
+
+
 export default function HomePage() {
 	const navigate = useNavigate();
 	const { toast } = useToast();
@@ -14,16 +16,20 @@ export default function HomePage() {
 	const { login } = useAuth();
 
 	async function handleSubmit(data: Record<string, any>) {
+		const url = import.meta.env.VITE_BASE_API_URL
 		try {
 			setLoading(true);
-			const response = await fetch("http://localhost:3000/signin", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+			const response = await fetch(
+				`${url}/signin`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					credentials: "include",
+					body: JSON.stringify(data),
 				},
-				credentials: "include",
-				body: JSON.stringify(data),
-			});
+			);
 
 			const responseData = await response.json();
 			if (!response.ok) {

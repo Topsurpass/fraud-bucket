@@ -34,8 +34,9 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     };
 
     const generateNewToken = async (): Promise<string | null> => {
+        const url = import.meta.env.VITE_BASE_API_URL;
         try {
-            const response = await fetch("http://localhost:3000/newToken", {
+            const response = await fetch(`${url}/newToken`, {
                 method: "POST",
                 credentials: "include", // Include cookies in the request
                 headers: {
