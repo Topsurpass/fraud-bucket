@@ -4,11 +4,14 @@ import cors from "cors";
 import ngrok from "@ngrok/ngrok"
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser"
+import dotenv from "dotenv";
+
+dotenv.config();
 const server = express();
 
 const port = process.env.SERVER_PORT;
 const corsOptions = {
-	origin: "http://localhost:5173", // Replace with your frontend URL
+	origin: process.env.FRONTEND_URL || "http://localhost:5173", // Replace with your frontend URL
 	credentials: true, // Allow credentials (cookies)
 };
 server.use(cors(corsOptions));
