@@ -41,15 +41,16 @@ const chartData = {
 };
 
 export const BarChart = () => {
-    const options = {
+	const options = {
 		responsive: true,
+		maintainAspectRatio: false,
 		plugins: {
 			title: {
 				display: true,
 				text: "Yearly Fraud Analysis",
-            },
+			},
 		},
 	};
 
-    return <Bar options={options} data={chartData} />;
-}
+	return <Bar options={options} data={chartData}/>;
+};

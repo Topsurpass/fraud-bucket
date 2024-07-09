@@ -20,7 +20,7 @@ const corsOptions = {
 		if (allowedOrigins.includes(origin) || !origin) {
 			callback(null, true);
 		} else {
-			 callback(null, true);
+			 callback(null, true); // change this to effect CORS
 		}
 	},
 	credentials: true, // Allow credentials (cookies)

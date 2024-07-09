@@ -143,7 +143,7 @@ export default function Dashboard() {
 					</div>
 					<div className="flex h-full w-full flex-col gap-2">
 						<p className="font-bold">Fraud statistics</p>
-						<div className="w-full">
+						<div className="w-full h-[500px] md:h-full">
 							<BarChart />
 						</div>
 					</div>
