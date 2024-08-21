@@ -1,25 +1,27 @@
-// import Button from "@/components/ui/Buttons";
-// import { IoMdAdd } from "react-icons/io";
-// import { TableCompo } from "@/components/features/Table";
+import FraudTransTable from "./fraud-trxn-table"; 
+
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+} from "@/components/ui/card";
 
 export default function Transactions() {
 	return (
-		<div className="flex flex-col rounded gap-3">
-			{/* <Button
-				variant="primary"
-				type="button"
-				title={`Add New`}
-				size="sm"
-				fullWidth
-				className="ml-auto h-[40px] md:w-[110px] rounded bg-etzBlue-800"
-				isLoading={false}
-				loadingText=""
-				onClick={() => alert("Button clicked!")}
-				icon={<IoMdAdd />}
-			/>
-			<div className="">
-				<TableCompo />
-			</div> */}
+		<div className="flex flex-col gap-3 rounded">
+			<Card className="lg:col-span-3">
+				<CardHeader>
+					<CardTitle>Fraudulent Transactions</CardTitle>
+					<CardDescription>
+						View, add and track recently added fraudulent transactions
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="p-5">
+					<FraudTransTable />
+				</CardContent>
+			</Card>
 		</div>
 	);
 }

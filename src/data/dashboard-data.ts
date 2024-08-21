@@ -1,4 +1,3 @@
-import { TransactionProps } from "@/types/form-types";
 export const dashboardData = [
 	{
 		title: "Total fraud cases",
@@ -22,7 +21,7 @@ export const topAnalyst = [
 	{
 		name: "Ogunjobi Tokunbo",
 		title: "Senior Audit Officer",
-		fraudCount: 50
+		fraudCount: 50,
 	},
 	{
 		name: "Olowosuyi Temitope",
@@ -49,7 +48,7 @@ export const topAnalyst = [
 		title: "Team Lead",
 		fraudCount: 3,
 	},
-]
+];
 
 export const fraudBanks = [
 	{
@@ -79,23 +78,3 @@ export const fraudBanks = [
 	},
 ];
 
-export const transactionsData: TransactionProps[] = [
-	{
-		name: "John Doe",
-		merchant: "Nomba",
-		date: "2024-06-01",
-		amount: 50000000,
-	},
-	{
-		name: "Jane Smith",
-		merchant: "Polaris Bank",
-		date: "2024-06-02",
-		amount: 10000000,
-	},
-	{
-		name: "Bob Johnson",
-		merchant: "PocketMoni",
-		date: "2024-06-03",
-		amount: 4000000,
-	},
-];

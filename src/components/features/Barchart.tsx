@@ -1,56 +1,81 @@
-import { Bar } from "react-chartjs-2";
-import { data } from "@/data/charts-data";
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-} from "chart.js";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-);
+const data = [
+  {
+    name: "Jan",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Feb",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Mar",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Apr",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "May",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Jun",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Jul",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Aug",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Sep",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Oct",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Nov",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+  {
+    name: "Dec",
+    total: Math.floor(Math.random() * 5000) + 1000,
+  },
+];
 
-const chartData = {
-	labels: data.map((item) => item.year),
-	datasets: [
-		{
-			label: "Total fraud",
-			data: data.map((item) => item.total),
-			backgroundColor: "rgba(75, 192, 192, 0.6)",
-		},
-		{
-			label: "Recovered",
-			data: data.map((item) => item.recovered),
-			backgroundColor: "rgba(54, 162, 235, 0.6)",
-		},
-		{
-			label: "Pending",
-			data: data.map((item) => item.pending),
-			backgroundColor: "rgba(255, 206, 86, 0.6)",
-		},
-	],
-};
-
-export const BarChart = () => {
-	const options = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			title: {
-				display: true,
-				text: "Yearly Fraud Analysis",
-			},
-		},
-	};
-
-	return <Bar options={options} data={chartData}/>;
-};
+export function BarChartDash() {
+	return (
+		<ResponsiveContainer width="100%" height={350}>
+			<BarChart data={data}>
+				<XAxis
+					dataKey="name"
+					stroke="#888888"
+					fontSize={12}
+					tickLine={false}
+					axisLine={false}
+				/>
+				<YAxis
+					stroke="#888888"
+					fontSize={12}
+					tickLine={false}
+					axisLine={false}
+					tickFormatter={(value) => `${value}`}
+				/>
+				<Bar
+					dataKey="total"
+					fill="currentColor"
+					radius={[4, 4, 0, 0]}
+					className="fill-primary"
+				/>
+			</BarChart>
+		</ResponsiveContainer>
+	);
+}

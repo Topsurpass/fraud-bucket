@@ -8,7 +8,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Links, dayAndNight } from "@/data/menu-data";
-import { useNavigate } from "react-router-dom";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -17,8 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { ReactNode } from "react";
 import { cn } from "@/utils";
-import { jwtDecode } from 'jwt-decode';
-import { useAuth } from "@/context/AuthContext";
+import useAuthStore from "@/stores/user-store";
 
 type ProfileProps = {
 	triggerIcon: ReactNode;
@@ -26,24 +24,12 @@ type ProfileProps = {
 	contentClass?: string;
 };
 
-type jwtDecodeProps = {
-	userId?: string,
-	name: string,
-	jobTitle: string,
-	iat?: number,
-	exp?: number
-}
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
-	const token = localStorage.getItem("token");
-	let decoded: jwtDecodeProps | null = null;
-	const navigate = useNavigate();
-	if (token) decoded = jwtDecode(token);
-	const { logout } = useAuth();
+	const userStore = useAuthStore((state) => state);
 	const handleLogout = () => {
-		logout();
-		navigate('/login');
-	}
+		userStore.reset();
+	};
 
 	return (
 		<header className="flex w-full flex-col">
@@ -52,13 +38,13 @@ export default function Header() {
 					<Logo
 						redSize="md:text-2xl text-xl"
 						blueSize="md:text-2xl text-xl"
-						logoSize="md:text-2xl -mt-1"
+						logoSize="md:text-2xl -mt-1 text-black"
 					/>
 				</div>
 				<div className="hidden md:flex md:items-center md:gap-5">
 					<ProfileCard
 						triggerIcon={
-							<IoMoonSharp className="cursor-pointer text-gray-100 " />
+							<IoMoonSharp className="cursor-pointer text-gray-100" />
 						}
 						contentDivs={
 							<div className="mr-30 flex flex-col gap-3">
@@ -95,9 +81,9 @@ export default function Header() {
 										className="w-[40px] rounded-full"
 									/>
 									<div>
-										<p>{ decoded && decoded.name }</p>
+										<p>{userStore.name}</p>
 										<p className="text-[12px]">
-											{ decoded && decoded.jobTitle }
+											{userStore.job}
 										</p>
 									</div>
 								</div>
@@ -112,7 +98,10 @@ export default function Header() {
 										</Link>
 									))}
 								</div>
-								<button className="flex w-full items-center gap-3 hover:text-etzBlue-500" onClick={handleLogout}>
+								<button
+									className="flex w-full items-center gap-3 hover:text-etzBlue-500"
+									onClick={handleLogout}
+								>
 									<MdLogout className="text-xl" /> Logout
 								</button>
 							</>
@@ -129,7 +118,7 @@ export default function Header() {
 				</div>
 			</div>
 			<div
-				className={`${isOpen ? "w-[50%] translate-x-0 transform duration-300 ease-out" : "w-0 translate-x-full transform duration-300 ease-in"} fixed right-0  mt-[46px] flex h-screen  flex-col  bg-etzBlue-800 text-white md:hidden`}
+				className={`${isOpen ? "w-[50%] translate-x-0 transform duration-300 ease-out" : "w-0 translate-x-full transform duration-300 ease-in"} fixed right-0 mt-[46px] flex h-screen flex-col bg-etzBlue-800 text-white md:hidden`}
 			>
 				<ScrollArea className="h-[80%]">
 					<MobileMenu />
@@ -149,7 +138,7 @@ export function ProfileCard({
 			<HoverCardTrigger>{triggerIcon}</HoverCardTrigger>
 			<HoverCardContent
 				className={cn(
-					`${contentClass} flex flex-col gap-6 bg-etzBlue-800 text-sm text-white`,
+					`${contentClass} flex flex-col gap-6 bg-gray-100 text-sm `,
 				)}
 			>
 				{contentDivs}
