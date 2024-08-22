@@ -1,3 +1,9 @@
+import CollaborationTable from "./collaboration-table";
+
 export default function Collaboration() {
-	return <h1>Collaboration is here</h1>;
+	return (
+		<>
+			<CollaborationTable />
+		</>
+	);
 }

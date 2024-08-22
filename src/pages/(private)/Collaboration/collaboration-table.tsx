@@ -1,11 +1,18 @@
 import { useMemo, useState } from "react";
-import { Download, CirclePlus, Ellipsis, Pencil, Trash2 } from "lucide-react";
-
+import {
+	Download,
+	CirclePlus,
+	Ellipsis,
+	Pencil,
+	Trash2,
+	Mail,
+	PhoneCall,
+} from "lucide-react";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
-import { TransactionProps } from "@/types/fraud-txn-schema";
-import { transactionsData } from "@/data/fraud-trxn-data";
 import Button from "@/components/ui/button";
+import { CollaborationProps } from "@/types/collaboration-schema";
+import { collaborationData } from "@/data/collaboration-data";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,7 +20,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function FraudTransTable() {
+export default function CollaborationTable() {
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
@@ -26,7 +33,7 @@ export default function FraudTransTable() {
 		};
 	}, [pageIndex, pageSize]);
 
-	const columns = useMemo<ColumnDef<TransactionProps>[]>(
+	const columns = useMemo<ColumnDef<CollaborationProps>[]>(
 		() => [
 			{
 				accessorKey: "id",
@@ -37,33 +44,25 @@ export default function FraudTransTable() {
 				enableHiding: false,
 			},
 			{
-				accessorKey: "date",
-				header: () => <span className="font-bold">Date</span>,
+				accessorKey: "name",
+				header: () => <span className="font-bold">Name</span>,
 			},
 			{
-				accessorKey: "merchant",
-				header: () => <span className="font-bold">Merchant</span>,
+				accessorKey: "institution",
+				header: () => <span className="font-bold">Institution</span>,
 			},
 			{
-				accessorKey: "amount",
-				header: () => <span className="font-bold">Amount</span>,
+				accessorKey: "email",
+				header: () => <span className="font-bold">Email</span>,
 			},
 			{
-				accessorKey: "count",
-				header: () => <span className="font-bold">Count</span>,
-			},
-			{
-				accessorKey: "type",
-				header: () => <span className="font-bold">Method</span>,
-			},
-			{
-				accessorKey: "analyst",
-				header: () => <span className="font-bold">Caught By</span>,
+				accessorKey: "phone",
+				header: () => <span className="font-bold">Phone</span>,
 			},
 			{
 				header: () => <span className="font-bold">Actions</span>,
 				id: "action",
-				cell: () => (
+				cell: (row) => (
 					<DropdownMenu>
 						<DropdownMenuTrigger>
 							<Button variant="outline" size="icon">
@@ -88,6 +87,16 @@ export default function FraudTransTable() {
 								<Trash2 size={18} />
 								<span>Delete</span>
 							</DropdownMenuItem>
+							<DropdownMenuItem
+								className="flex cursor-pointer items-center gap-2 hover:bg-blue-500"
+								onClick={() => {
+									const emailAddress = row.row.original.email;
+									window.location.href = `mailto:${emailAddress}`;
+								}}
+							>
+								<Mail size={18} />
+								<span>Mail</span>
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				),
@@ -103,11 +112,10 @@ export default function FraudTransTable() {
 				<div className="flex flex-col gap-3">
 					<div>
 						<h2 className="text-2xl font-semibold">
-							Fraudulent Transactions
+							Frauddesk Contacts
 						</h2>
 						<h4 className="text-base text-gray-600">
-							View and add confirmed fraudulent
-							transactions
+							Find fraud analysts contacts in other institution.
 						</h4>
 					</div>
 				</div>
@@ -135,7 +143,7 @@ export default function FraudTransTable() {
 				</section>
 			</div>
 			<DataTableSSR
-				data={transactionsData || []}
+				data={collaborationData || []}
 				columns={columns}
 				pageCount={4}
 				totalRecords={100}
@@ -143,7 +151,7 @@ export default function FraudTransTable() {
 				setPagination={setPagination}
 				isLoading={false}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
-				showFilter={false}
+				showFilter={true}
 			/>
 		</section>
 	);

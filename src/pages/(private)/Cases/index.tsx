@@ -1,3 +1,8 @@
+import CaseTable from "./case-table";
 export default function Cases() {
-	return <h1>Cases is here</h1>;
+	return (
+		<>
+			<CaseTable />
+		</>
+	);
 }

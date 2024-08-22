@@ -8,9 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 export default function Dashboard() {
 	return (
 		<div className="mb-10">
-			<h2 className="my-4 text-3xl font-bold tracking-tight ">
-				Dashboard
-			</h2>
+			<div className="mb-10">
+				<h2 className="text-2xl font-semibold">
+					Dashboard
+				</h2>
+				<h4 className="text-base text-gray-600">
+					Monitor, track and view fraudulent transactions charts
+				</h4>
+			</div>
 			<DashBoardCard />
 			<div className="mt-5 grid gap-4 sm:grid-cols-1 lg:grid-cols-6">
 				<Card className="lg:col-span-3">

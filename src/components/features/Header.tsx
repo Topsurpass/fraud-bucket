@@ -44,7 +44,7 @@ export default function Header() {
 				<div className="hidden md:flex md:items-center md:gap-5">
 					<ProfileCard
 						triggerIcon={
-							<IoMoonSharp className="cursor-pointer text-gray-100" />
+							<IoMoonSharp className="cursor-pointer" />
 						}
 						contentDivs={
 							<div className="mr-30 flex flex-col gap-3">

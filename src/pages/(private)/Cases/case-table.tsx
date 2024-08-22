@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
 import { Download, CirclePlus, Ellipsis, Pencil, Trash2 } from "lucide-react";
-
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
-import { TransactionProps } from "@/types/fraud-txn-schema";
-import { transactionsData } from "@/data/fraud-trxn-data";
+import { caseData } from "@/data/case-data";
 import Button from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -12,8 +10,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CaseProps } from "@/types/case-schema";
 
-export default function FraudTransTable() {
+export default function CaseTable() {
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
@@ -26,7 +25,7 @@ export default function FraudTransTable() {
 		};
 	}, [pageIndex, pageSize]);
 
-	const columns = useMemo<ColumnDef<TransactionProps>[]>(
+	const columns = useMemo<ColumnDef<CaseProps>[]>(
 		() => [
 			{
 				accessorKey: "id",
@@ -42,23 +41,29 @@ export default function FraudTransTable() {
 			},
 			{
 				accessorKey: "merchant",
-				header: () => <span className="font-bold">Merchant</span>,
+				header: () => <span className="font-bold">Sender Bank</span>,
 			},
 			{
 				accessorKey: "amount",
 				header: () => <span className="font-bold">Amount</span>,
 			},
 			{
-				accessorKey: "count",
-				header: () => <span className="font-bold">Count</span>,
+				accessorKey: "channel",
+				header: () => <span className="font-bold">Channel</span>,
 			},
 			{
 				accessorKey: "type",
-				header: () => <span className="font-bold">Method</span>,
+				header: () => (
+					<span className="font-bold">Transaction type</span>
+				),
 			},
 			{
 				accessorKey: "analyst",
-				header: () => <span className="font-bold">Caught By</span>,
+				header: () => <span className="font-bold">Escalated by</span>,
+			},
+			{
+				accessorKey: "status",
+				header: () => <span className="font-bold">Status</span>,
 			},
 			{
 				header: () => <span className="font-bold">Actions</span>,
@@ -103,11 +108,10 @@ export default function FraudTransTable() {
 				<div className="flex flex-col gap-3">
 					<div>
 						<h2 className="text-2xl font-semibold">
-							Fraudulent Transactions
+							Escalated Transactions
 						</h2>
 						<h4 className="text-base text-gray-600">
-							View and add confirmed fraudulent
-							transactions
+							Track and escalate transactions
 						</h4>
 					</div>
 				</div>
@@ -135,7 +139,7 @@ export default function FraudTransTable() {
 				</section>
 			</div>
 			<DataTableSSR
-				data={transactionsData || []}
+				data={caseData || []}
 				columns={columns}
 				pageCount={4}
 				totalRecords={100}
@@ -143,7 +147,7 @@ export default function FraudTransTable() {
 				setPagination={setPagination}
 				isLoading={false}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
-				showFilter={false}
+				showFilter={true}
 			/>
 		</section>
 	);
