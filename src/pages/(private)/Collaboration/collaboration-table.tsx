@@ -6,7 +6,6 @@ import {
 	Pencil,
 	Trash2,
 	Mail,
-	PhoneCall,
 } from "lucide-react";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
