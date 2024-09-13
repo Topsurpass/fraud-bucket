@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { Download, CirclePlus, Ellipsis, Pencil, Trash2 } from "lucide-react";
+import { EntityType } from "@/types/enum";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
+import useGlobalProvider from "@/hooks/use-global-provider";
 import { caseData } from "@/data/case-data";
 import Button from "@/components/ui/button";
 import {
@@ -13,6 +15,7 @@ import {
 import { CaseProps } from "@/types/case-schema";
 
 export default function CaseTable() {
+	const { onModalOpen } = useGlobalProvider();
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
@@ -41,7 +44,7 @@ export default function CaseTable() {
 			},
 			{
 				accessorKey: "merchant",
-				header: () => <span className="font-bold">Sender Bank</span>,
+				header: () => <span className="font-bold">Merchant</span>,
 			},
 			{
 				accessorKey: "amount",
@@ -108,7 +111,7 @@ export default function CaseTable() {
 				<div className="flex flex-col gap-3">
 					<div>
 						<h2 className="text-2xl font-semibold">
-							Escalated Transactions
+							Escalate Transaction
 						</h2>
 						<h4 className="text-base text-gray-600">
 							Track and escalate transactions
@@ -129,7 +132,7 @@ export default function CaseTable() {
 						<Button
 							type="button"
 							className="group flex items-center gap-2 active:bg-blue-200"
-							onClick={() => {}}
+							onClick={() => onModalOpen(EntityType.CASES)}
 							variant="outline"
 							size="lg"
 							label="Create New"

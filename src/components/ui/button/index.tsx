@@ -18,6 +18,7 @@ const buttonVariants = cva(
 					"border border-input bg-background hover:bg-accent hover:text-accent-foreground",
 				secondary:
 					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
+				danger:"bg-red-500 text-white",
 				ghost: "hover:bg-accent hover:text-accent-foreground",
 				link: "text-primary underline-offset-4 hover:underline",
 			},
@@ -31,7 +32,7 @@ const buttonVariants = cva(
 				true: "w-full",
 			},
 			disabled: {
-				true: "disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-50 ",
+				true: "disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-50",
 			},
 		},
 		defaultVariants: {

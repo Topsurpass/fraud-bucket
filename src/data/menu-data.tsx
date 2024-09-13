@@ -19,21 +19,21 @@ export const navLinks = [
 		path: "/transactions",
 		icon: <GrTransaction />,
 	},
-	{
-		name: "Cases",
-		path: "/cases",
-		icon: <IoIosBriefcase />,
-	},
-	{
-		name: "Files",
-		path: "/files",
-		icon: <SiMicrosoftexcel />,
-	},
-	{
-		name: "Analysis",
-		path: "/analysis",
-		icon: <IoMdAnalytics />,
-	},
+	// {
+	// 	name: "Cases",
+	// 	path: "/cases",
+	// 	icon: <IoIosBriefcase />,
+	// },
+	// {
+	// 	name: "Files",
+	// 	path: "/files",
+	// 	icon: <SiMicrosoftexcel />,
+	// },
+	// {
+	// 	name: "Analysis",
+	// 	path: "/analysis",
+	// 	icon: <IoMdAnalytics />,
+	// },
 	{
 		name: "Collaboration",
 		path: "/collaboration",

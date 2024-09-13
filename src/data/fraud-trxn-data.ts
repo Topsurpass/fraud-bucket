@@ -8,7 +8,7 @@ export const transactionsData: TransactionProps[] = [
 		amount: 50000000,
 		count: 30,
 		analyst: "Olowosuyi Temitope",
-		type: "Duplicate ref",
+		type: "Duplicate",
 		channel: "SwitchIt",
 	},
 	{
@@ -18,8 +18,8 @@ export const transactionsData: TransactionProps[] = [
 		amount: 10000000,
 		count: 50,
 		analyst: "Ogunjobi Tokunbo",
-		type: "Account Hijack",
-		channel: "SwitchIt",
+		type: "Funds transfer",
+		channel: "Mobile",
 	},
 	{
 		name: "Bob Johnson",
@@ -29,7 +29,7 @@ export const transactionsData: TransactionProps[] = [
 		count: 13,
 		analyst: "Okafor Bobby",
 		type: "Phishing",
-		channel: "SwitchIt",
+		channel: "Web",
 	},
 	{
 		name: "John Doe",
@@ -39,7 +39,7 @@ export const transactionsData: TransactionProps[] = [
 		count: 90,
 		analyst: "Chimgaemezu Eluchie",
 		type: "Money Laudring",
-		channel: "e_tmc",
+		channel: "SwitchIt",
 	},
 	{
 		name: "Jane Smith",
@@ -48,7 +48,7 @@ export const transactionsData: TransactionProps[] = [
 		amount: 10000000,
 		count: 39,
 		analyst: "Oliyide Misheal",
-		type: "Account Compromise",
-		channel: "e_tmc",
+		type: "Fund Transfer",
+		channel: "Corporate Pay",
 	},
 ];

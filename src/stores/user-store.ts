@@ -7,9 +7,11 @@ type TState = {
 	expiresIn: number;
 	accessToken: string;
 	refreshToken: string;
-	name: string;
-	job: string;
+	firstname: string;
+	lastname: string;
+	role: string;
 	email: string;
+	// phone: string;
 	isAuthenticated: boolean;
 };
 type TAction = {
@@ -21,9 +23,11 @@ const initialState: TState = {
 	expiresIn: 0,
 	accessToken: "",
 	refreshToken: "",
-	name: "",
-	job: "",
+	firstname: "",
+	lastname: "",
+	role: "",
 	email: "",
+	// phone: "",
 	isAuthenticated: false,
 };
 const useAuthStore = create<TState & TAction>()(
@@ -39,8 +43,9 @@ const useAuthStore = create<TState & TAction>()(
 							accessToken: payload.accessToken,
 							refreshToken: payload.refreshToken,
 							email: payload.email,
-							name: payload.name,
-							job: payload.jobTitle,
+							firstname: payload.firstname,
+							lastname: payload.lastname,
+							role: payload.role,
 							isAuthenticated: true,
 						})),
 

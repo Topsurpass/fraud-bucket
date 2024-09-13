@@ -8,10 +8,10 @@ export default function ToastProvider() {
 		<SonnerToaster
 			position="bottom-right"
 			richColors
-			offset={100}
+			offset={50}
 			closeButton
 			toastOptions={{
-				duration: 8 * 1000, // 8secs
+				duration: 2 * 1000, // 8secs
 			}}
 		/>
 	);

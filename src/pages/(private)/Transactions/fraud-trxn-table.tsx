@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import { Download, CirclePlus, Ellipsis, Pencil, Trash2 } from "lucide-react";
-
+import { Ellipsis, Pencil, Trash2, Download, CirclePlus } from "lucide-react";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
 import { TransactionProps } from "@/types/fraud-txn-schema";
-import { transactionsData } from "@/data/fraud-trxn-data";
+import useGlobalProvider from "@/hooks/use-global-provider";
+import { EntityType } from "@/types/enum";
+import useGetTransaction from "@/api/transactions/use-get-trxn";
 import Button from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -12,12 +13,28 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LoadingSpinner from "@/assets/icons/loading-spinner";
 
 export default function FraudTransTable() {
+	const { onModalOpen, onEdit, onDelete } = useGlobalProvider();
+	const [searchText, setSearchText] = useState("");
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
-		pageSize: 10,
+		pageSize: 5,
 	});
+
+	const mappedParamData = useMemo(() => {
+		const params: any = {
+			page: pageIndex + 1,
+			size: pageSize,
+		};
+		if (searchText) {
+			params.name = searchText;
+		}
+		return params;
+	}, [searchText, pageIndex, pageSize]);
+
+	const { data, isLoading } = useGetTransaction(mappedParamData);
 
 	const pagination = useMemo(() => {
 		return {
@@ -32,7 +49,9 @@ export default function FraudTransTable() {
 				accessorKey: "id",
 				header: "#",
 				cell: ({ row }) => (
-					<span className="font-bold uppercase">{row.index + 1}</span>
+					<span className="font-extrabold uppercase">
+						{row.index + 1}
+					</span>
 				),
 				enableHiding: false,
 			},
@@ -47,23 +66,33 @@ export default function FraudTransTable() {
 			{
 				accessorKey: "amount",
 				header: () => <span className="font-bold">Amount</span>,
-			},
-			{
-				accessorKey: "count",
-				header: () => <span className="font-bold">Count</span>,
+				cell: ({ row }) => {
+					const amount = parseFloat(row?.getValue("amount"));
+					return (
+						<span>{new Intl.NumberFormat().format(amount)}</span>
+					);
+				},
 			},
 			{
 				accessorKey: "type",
-				header: () => <span className="font-bold">Method</span>,
+				header: () => <span className="font-bold">Type</span>,
+			},
+			{
+				accessorKey: "channel",
+				header: () => <span className="font-bold">Channel</span>,
 			},
 			{
 				accessorKey: "analyst",
 				header: () => <span className="font-bold">Caught By</span>,
 			},
 			{
+				accessorKey: "status",
+				header: () => <span className="font-bold">Status</span>,
+			},
+			{
 				header: () => <span className="font-bold">Actions</span>,
 				id: "action",
-				cell: () => (
+				cell: (row) => (
 					<DropdownMenu>
 						<DropdownMenuTrigger>
 							<Button variant="outline" size="icon">
@@ -76,14 +105,24 @@ export default function FraudTransTable() {
 						>
 							<DropdownMenuItem
 								className="flex cursor-pointer items-center gap-2 hover:bg-blue-500"
-								onClick={() => {}}
+								onClick={() => {
+									onEdit({
+										data: row?.row?.original,
+										entity: EntityType.TRANSACTION,
+									});
+								}}
 							>
 								<Pencil size={18} />
 								<span>Edit</span>
 							</DropdownMenuItem>
 							<DropdownMenuItem
 								className="flex cursor-pointer items-center gap-2 hover:bg-blue-500"
-								onClick={() => {}}
+								onClick={() =>
+									onDelete({
+										data: row?.row?.original,
+										entity: EntityType.TRANSACTION,
+									})
+								}
 							>
 								<Trash2 size={18} />
 								<span>Delete</span>
@@ -93,21 +132,20 @@ export default function FraudTransTable() {
 				),
 			},
 		],
-		[],
+		[onEdit],
 	);
 
 	return (
 		<section>
-			{/* {isPending && <LoadingSpinner />} */}
+			{isLoading && <LoadingSpinner className="text-2xl" />}
 			<div>
 				<div className="flex flex-col gap-3">
 					<div>
 						<h2 className="text-2xl font-semibold">
-							Fraudulent Transactions
+							Recent Fraudulent Transactions
 						</h2>
 						<h4 className="text-base text-gray-600">
-							View and add confirmed fraudulent
-							transactions
+							View and add confirmed fraudulent transactions
 						</h4>
 					</div>
 				</div>
@@ -125,7 +163,7 @@ export default function FraudTransTable() {
 						<Button
 							type="button"
 							className="group flex items-center gap-2 active:bg-blue-200"
-							onClick={() => {}}
+							onClick={() => onModalOpen(EntityType.TRANSACTION)}
 							variant="outline"
 							size="lg"
 							label="Create New"
@@ -135,13 +173,14 @@ export default function FraudTransTable() {
 				</section>
 			</div>
 			<DataTableSSR
-				data={transactionsData || []}
+				data={data?.data || []}
 				columns={columns}
-				pageCount={4}
-				totalRecords={100}
+				pageCount={data?.pageCount}
+				totalRecords={data?.totalRecords}
 				pagination={pagination}
+				setSearchText={setSearchText}
 				setPagination={setPagination}
-				isLoading={false}
+				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
 				showFilter={false}
 			/>

@@ -81,9 +81,9 @@ export default function Header() {
 										className="w-[40px] rounded-full"
 									/>
 									<div>
-										<p>{userStore.name}</p>
+										<p>{`${userStore.firstname}`}</p>
 										<p className="text-[12px]">
-											{userStore.job}
+											{userStore.role}
 										</p>
 									</div>
 								</div>
@@ -118,7 +118,7 @@ export default function Header() {
 				</div>
 			</div>
 			<div
-				className={`${isOpen ? "w-[50%] translate-x-0 transform duration-300 ease-out" : "w-0 translate-x-full transform duration-300 ease-in"} fixed right-0 mt-[46px] flex h-screen flex-col bg-etzBlue-800 text-white md:hidden`}
+				className={`${isOpen ? "w-[50%] translate-x-0 transform duration-300 ease-out" : "w-0 translate-x-full transform duration-300 ease-in"} fixed right-0 mt-[46px] flex h-screen flex-col bg-gray-400  md:hidden`}
 			>
 				<ScrollArea className="h-[80%]">
 					<MobileMenu />

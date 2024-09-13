@@ -2,13 +2,15 @@ import { useMemo, useState } from "react";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
 import { TransactionProps } from "@/types/fraud-txn-schema";
-import { transactionsData } from "@/data/fraud-trxn-data";
+import useGetRecentTrnx from "@/api/dashboard/use-get-recentTrxn";
 
 export default function RecentTransTable() {
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
 	});
+
+	const { data, isLoading } = useGetRecentTrnx();
 
 	const pagination = useMemo(() => {
 		return {
@@ -20,14 +22,6 @@ export default function RecentTransTable() {
 	const columns = useMemo<ColumnDef<TransactionProps>[]>(
 		() => [
 			{
-				accessorKey: "id",
-				header: "#",
-				cell: ({ row }) => (
-					<span className="font-bold uppercase">{row.index + 1}</span>
-				),
-				enableHiding: false,
-			},
-			{
 				accessorKey: "date",
 				header: () => <span className="font-bold">Date</span>,
 			},
@@ -38,10 +32,16 @@ export default function RecentTransTable() {
 			{
 				accessorKey: "amount",
 				header: () => <span className="font-bold">Amount</span>,
+				cell: ({ row }) => {
+					const amount = parseFloat(row?.getValue("amount"));
+					return (
+						<span>{new Intl.NumberFormat().format(amount)}</span>
+					);
+				},
 			},
 			{
-				accessorKey: "count",
-				header: () => <span className="font-bold">Count</span>,
+				accessorKey: "type",
+				header: () => <span className="font-bold">Type</span>,
 			},
 			{
 				accessorKey: "analyst",
@@ -55,15 +55,16 @@ export default function RecentTransTable() {
 		<section>
 			{/* {isPending && <LoadingSpinner />} */}
 			<DataTableSSR
-				data={transactionsData || []}
+				data={data || []}
 				columns={columns}
 				pageCount={4}
 				totalRecords={100}
 				pagination={pagination}
 				setPagination={setPagination}
-				isLoading={false}
+				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
 				showFilter={false}
+				showPagination={false}
 			/>
 		</section>
 	);

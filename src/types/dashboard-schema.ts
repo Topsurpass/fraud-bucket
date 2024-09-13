@@ -4,14 +4,13 @@ export type FormDataProps = {
 };
 
 export type AnalystProps = {
-	name: string;
-	fraudCount: number;
-	title: string;
+	analyst: string;
+	count: number;
 };
 
 export type BankProps = {
-	name: string;
-	fraudCount: number;
+	merchant: string;
+	cases: number;
 	amount: number;
 };
 

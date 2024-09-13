@@ -27,7 +27,7 @@ export default function HomePage() {
 	const { control, handleSubmit } = useForm<LoginInputs>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
-			email: "admin@fraud.com",
+			email: "mezu@fraud.com",
 			password: "Adminfraud",
 		},
 	});
@@ -41,8 +41,8 @@ export default function HomePage() {
 	};
 
 	return (
-		<section className="grid h-screen w-full grid-cols-1 bg-slate-50 px-5 md:grid-cols-2">
-			<div className="flex flex-col items-center justify-center text-white md:flex-col">
+		<section className="grid h-screen w-full grid-cols-1 bg-slate-50 px-5 md:grid-cols-2 fixed">
+			<div className="flex flex-col items-center justify-end md:justify-center text-white md:flex-col">
 				<Logo
 					redSize="text-4xl"
 					blueSize="text-4xl"
@@ -122,6 +122,7 @@ export default function HomePage() {
 						onClick={handleSubmit(processForm)}
 						isLoading={isPending}
 						loadingText="Please wait"
+						disabled={isPending}
 					/>
 				</CardFooter>
 				{isError && (

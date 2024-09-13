@@ -15,7 +15,7 @@ const useLoginUser = () => {
 	const mutation = useMutation({
 		mutationFn: async (requestPayload: RequestPayload) => {
 			try {
-				const res = await HTTP.post("/signin", requestPayload);
+				const res = await HTTP.post("/api/v1/auth/signin", requestPayload);
 				return res;
 			} catch (error) {
 				return Promise.reject(error);
@@ -27,7 +27,7 @@ const useLoginUser = () => {
 			const decodedToken = jwtDecode(accessToken);
 
 			// TODO: remove the token in localStorage to avoid XSS attack
-			//   localStorage.setItem("shw_id", token);
+			//   localStorage.setItem("shw_id", accessToken);
 			addUserToStore({
 				accessToken,
 				...rest,

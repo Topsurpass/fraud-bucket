@@ -5,23 +5,23 @@ import { cn } from "@/utils";
 const SettingLinks = [
 	{
 		title: "Profile",
-		path: "/profile",
+		path: "/settings/profile",
 	},
 	{
 		title: "Setting",
-		path: "/setting",
+		path: "/settings",
 	},
 	{
 		title: "Users",
-		path: "/setting/users",
+		path: "/settings/users",
 	},
-	{
-		title: "Roles & Permissions",
-		path: "/setting/roles",
-	},
+	// {
+	// 	title: "Roles & Permissions",
+	// 	path: "/setting/roles",
+	// },
 	{
 		title: "Change Password",
-		path: "/setting/change-password",
+		path: "/settings/change-password",
 	},
 ];
 

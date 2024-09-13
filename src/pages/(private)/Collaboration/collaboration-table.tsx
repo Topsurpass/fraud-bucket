@@ -11,7 +11,9 @@ import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
 import Button from "@/components/ui/button";
 import { CollaborationProps } from "@/types/collaboration-schema";
-import { collaborationData } from "@/data/collaboration-data";
+import { EntityType } from "@/types/enum";
+import useGlobalProvider from "@/hooks/use-global-provider";
+import useGetContact from "@/api/fraud-contact.ts/use-get-contact";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -20,10 +22,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function CollaborationTable() {
+	const { onModalOpen, onEdit, onDelete } = useGlobalProvider();
+
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
 	});
+	const { data, isLoading } = useGetContact();
 
 	const pagination = useMemo(() => {
 		return {
@@ -47,8 +52,8 @@ export default function CollaborationTable() {
 				header: () => <span className="font-bold">Name</span>,
 			},
 			{
-				accessorKey: "institution",
-				header: () => <span className="font-bold">Institution</span>,
+				accessorKey: "merchant",
+				header: () => <span className="font-bold">Merchant</span>,
 			},
 			{
 				accessorKey: "email",
@@ -74,14 +79,24 @@ export default function CollaborationTable() {
 						>
 							<DropdownMenuItem
 								className="flex cursor-pointer items-center gap-2 hover:bg-blue-500"
-								onClick={() => {}}
+								onClick={() => {
+									onEdit({
+										data: row?.row?.original,
+										entity: EntityType.COLLABORATION,
+									});
+								}}
 							>
 								<Pencil size={18} />
 								<span>Edit</span>
 							</DropdownMenuItem>
 							<DropdownMenuItem
 								className="flex cursor-pointer items-center gap-2 hover:bg-blue-500"
-								onClick={() => {}}
+								onClick={() =>
+									onDelete({
+										data: row?.row?.original,
+										entity: EntityType.COLLABORATION,
+									})
+								}
 							>
 								<Trash2 size={18} />
 								<span>Delete</span>
@@ -132,7 +147,9 @@ export default function CollaborationTable() {
 						<Button
 							type="button"
 							className="group flex items-center gap-2 active:bg-blue-200"
-							onClick={() => {}}
+							onClick={() =>
+								onModalOpen(EntityType.COLLABORATION)
+							}
 							variant="outline"
 							size="lg"
 							label="Create New"
@@ -142,13 +159,13 @@ export default function CollaborationTable() {
 				</section>
 			</div>
 			<DataTableSSR
-				data={collaborationData || []}
+				data={data || []}
 				columns={columns}
 				pageCount={4}
 				totalRecords={100}
 				pagination={pagination}
 				setPagination={setPagination}
-				isLoading={false}
+				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
 				showFilter={true}
 			/>

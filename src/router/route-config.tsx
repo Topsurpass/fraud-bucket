@@ -6,11 +6,15 @@ import Analysis from "@/pages/(private)/Analysis";
 import Transactions from "@/pages/(private)/Transactions";
 import Cases from "@/pages/(private)/Cases";
 import Files from "@/pages/(private)/Files";
-import Settings from "@/pages/(private)/Settings";
+import SettingsLayout from "@/pages/(private)/Settings";
 import Collaboration from "@/pages/(private)/Collaboration";
 import ProtectedRoute from "@/router/ProtectedRoutes";
 import PublicRoute from "@/router/public-route";
 import PublicLayout from "@/layout/public-layout";
+import Configuration from "@/pages/(private)/Settings/settiings";
+import Users from "@/pages/(private)/Settings/users";
+import ChangePassword from "@/pages/(private)/Settings/change-password";
+import Profile from "@/pages/(private)/Settings/profile";
 
 const routeConfig = [
 	{
@@ -62,7 +66,25 @@ const routeConfig = [
 			},
 			{
 				path: "/settings",
-				element: <Settings />,
+				element: <SettingsLayout />,
+				children: [
+					{
+						index: true,
+						element: <Configuration />,
+					},
+					{
+						path: "users",
+						element: <Users />,
+					},
+					{
+						path: "profile",
+						element: <Profile />,
+					},
+					{
+						path: "change-password",
+						element: <ChangePassword />,
+					},
+				],
 			},
 		],
 		errorElement: <ErrorPage />,
