@@ -18,7 +18,7 @@ import Profile from "@/pages/(private)/Settings/profile";
 
 const routeConfig = [
 	{
-		path: "/",
+		// path: "/",
 		element: (
 			<PublicRoute>
 				<PublicLayout />
@@ -26,8 +26,8 @@ const routeConfig = [
 		),
 		children: [
 			{
-				// index: true,
-				path: "login",
+				index: true,
+				path: "/login",
 				element: <Login />,
 			},
 		],
