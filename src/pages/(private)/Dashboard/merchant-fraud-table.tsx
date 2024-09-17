@@ -51,6 +51,7 @@ export default function MerchantFraudTable() {
 				setPagination={setPagination}
 				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
+				isSearchable={false}
 				showFilter={false}
 				showPagination={false}
 			/>

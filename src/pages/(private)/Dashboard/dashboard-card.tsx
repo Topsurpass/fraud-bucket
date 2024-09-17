@@ -4,10 +4,10 @@ import { addCommas } from "@/utils/helpers";
 
 export default function DashBoardCard() {
 	const { data, isLoading } = useGetStatistic();
-	const amount = !isLoading && addCommas(data.totalFraudulentAmount);
-	const amountEscalated = !isLoading && addCommas(data.totalEscalatedAmount);
-	const fraudulentCases = !isLoading && addCommas(data.totalFraudulentCount);
-	const tranxEscalated = !isLoading && addCommas(data.totalEscalateCount);
+	const amount = !isLoading && addCommas(data.totalFraudulentAmount) || 0;
+	const amountEscalated = !isLoading && addCommas(data.totalEscalatedAmount) || 0;
+	const fraudulentCases = !isLoading && addCommas(data.totalFraudulentCount) || 0;
+	const tranxEscalated = !isLoading && addCommas(data.totalEscalateCount) || 0;
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -64,7 +64,7 @@ export default function DashBoardCard() {
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium">
-						Escalated Amount
+						Amount Escalated
 					</CardTitle>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ export default function DashBoardCard() {
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium">
-						Total Fraud Cases
+						Escalation cases
 					</CardTitle>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

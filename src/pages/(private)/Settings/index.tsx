@@ -8,13 +8,13 @@ const SettingLinks = [
 		path: "/settings/profile",
 	},
 	{
-		title: "Setting",
-		path: "/settings",
-	},
-	{
 		title: "Users",
 		path: "/settings/users",
 	},
+	// {
+	// 	title: "Users",
+	// 	path: "/settings/users",
+	// },
 	// {
 	// 	title: "Roles & Permissions",
 	// 	path: "/setting/roles",

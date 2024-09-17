@@ -129,7 +129,7 @@ export default function HomePage() {
 					<div className="mt-2 flex items-center justify-center gap-2">
 						<AlertCircle size={20} color="red" />
 						<span className="text-red-500">
-							{error?.response?.data?.message as any}
+							{error?.response?.data?.error as any}
 						</span>
 					</div>
 				)}

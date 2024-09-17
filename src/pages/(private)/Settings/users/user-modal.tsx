@@ -1,58 +1,56 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
-import { TextField, ReactSelect } from "@/components/ui/forms";
+import { TextField, PasswordField } from "@/components/ui/forms";
 import useGlobalProvider from "@/hooks/use-global-provider";
 import QueryKeys from "@/api/query-keys";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { EntityType, RequestMethod } from "@/types/enum";
-import useMutateContact from "@/api/fraud-contact.ts/use-mutate-contact";
-import useGetMerchant from "@/api/merchant/use-get-merchant";
+import useMutateUser from "@/api/users/use-mutate-user";
 import LoadingSpinner from "@/assets/icons/loading-spinner";
 
 
 import {
-	CreateContactInputs,
-	CreateContactSchema,
-} from "@/validations/create-contact-schema";
+	SettingUserInputs,
+	SettingUserSchema,
+} from "@/validations/settins-user-schema";
 
 const initialValues = {
-	name: "",
-	merchant: {},
+	firstname: "",
+	lastname: "",
 	email: "",
 	phone: "",
+	role: "",
 };
 
-interface SelectProps {
-	label: string;
-	value: string;
-	id?: string;
-	merchant?: string;
-}
-
-export default function CollaborationModal() {
+export default function UserModal() {
 	const { isModalOpen, onModalClose, entity, isEdit, formData } =
 		useGlobalProvider();
-	const { data: merchant, isPending: loading } = useGetMerchant();
-	const { mutate: mutateContact, isPending } = useMutateContact();
+	const { mutate: mutateUser, isPending } = useMutateUser();
+	const [showPassword, setShowPassword] = useState(false);
 	const queryClient = useQueryClient();
-	const { control, handleSubmit, reset } = useForm<CreateContactInputs>({
-		resolver: zodResolver(CreateContactSchema),
+	const { control, handleSubmit, reset } = useForm<SettingUserInputs>({
+		resolver: zodResolver(SettingUserSchema(isEdit)),
 		defaultValues: initialValues,
 	});
 
-	const processForm: SubmitHandler<CreateContactInputs> = async (payload) => {
+	const processForm: SubmitHandler<SettingUserInputs> = async (payload) => {
+		const { password, ...rest } = payload;
 		const requestPayload = {
-			merchantId: payload?.merchant?.value,
-			name: payload?.name,
-			email: payload?.email,
-			phone: payload?.phone,
+			firstname: rest?.firstname,
+			lastname: rest?.lastname,
+			role: rest?.role,
+			email: rest?.email,
+			phone: rest?.phone,
 		} as any;
 
-		mutateContact(
+		if (!isEdit) {
+			requestPayload.password = password;
+		}
+		mutateUser(
 			{
 				requestMethod: isEdit
 					? RequestMethod.PATCH
@@ -62,37 +60,30 @@ export default function CollaborationModal() {
 			},
 			{
 				onSuccess: (res) => {
-					toast.success("Fraud Contact", {
+					toast.success("User", {
 						description: res?.data?.message,
 					});
 					queryClient.invalidateQueries({
-						queryKey: [QueryKeys.GET_CONTACTS],
+						queryKey: [QueryKeys.GET_USERS],
 					});
 					onModalClose();
 					reset();
 				},
 				onError: (err: any) => {
+					console.log(formData);
+					console.log(err);
 					toast.error(err.response.data.error);
 				},
 			},
 		);
 	};
 
-	const optionsMerchant = useMemo(() => {
-		return merchant?.map((merchant: SelectProps) => ({
-			value: merchant.id,
-			label: merchant.merchant,
-		}));
-	}, [merchant]);
-
 	useEffect(() => {
 		if (isEdit && formData) {
 			reset({
-				name: formData?.name,
-				merchant: {
-					value: formData.merchantId,
-					label: formData?.merchant,
-				},
+				firstname: formData?.firstname,
+				lastname: formData?.lastname,
+				role: formData?.role,
 				email: formData?.email,
 				phone: formData?.phone,
 			});
@@ -105,32 +96,30 @@ export default function CollaborationModal() {
 
 	return (
 		<Modal
-			title={`${isEdit ? "Edit" : "Add"} Frauddesk Contact`}
-			open={isModalOpen && EntityType.COLLABORATION === entity}
+			title={`${isEdit ? "Edit" : "Add"} User`}
+			open={isModalOpen && EntityType.SETTING_USER === entity}
 			handleClose={onModalClose}
-			size="lg"
+			size="3xl"
 		>
 			{isPending && <LoadingSpinner className="text-2xl" />}
 
 			<form onSubmit={() => {}}>
 				{/* <pre>{JSON.stringify(watch(), null, 2)}</pre> */}
-				<section className="flex flex-col space-y-3 p-4">
+				<section className="grid grid-cols-2 gap-3 p-4">
 					<div>
 						<TextField
-							label="Name"
-							name="name"
+							label="First name"
+							name="firstname"
 							control={control}
 							className="h-[45px] w-full rounded-md border p-2"
 						/>
 					</div>
 					<div>
-						<ReactSelect
-							label="Merchant"
+						<TextField
+							label="Last name"
+							name="lastname"
 							control={control}
-							name="merchant"
-							options={optionsMerchant}
-							isLoading={loading}
-							isDisabled={false}
+							className="h-[45px] w-full rounded-md border p-2"
 						/>
 					</div>
 					<div>
@@ -151,6 +140,31 @@ export default function CollaborationModal() {
 							className="h-[45px] w-full rounded-md border p-2"
 						/>
 					</div>
+					<div>
+						<TextField
+							label="Role"
+							name="role"
+							control={control}
+							className="h-[45px] w-full rounded-md border p-2"
+						/>
+					</div>
+					{!isEdit && (
+						<div className="w-full">
+							<PasswordField
+								label="Password"
+								name="password"
+								control={control}
+								showPassword={showPassword}
+								placeholder="Enter user password"
+								onIconClick={() =>
+									setShowPassword(!showPassword)
+								}
+								type={showPassword ? "text" : "password"}
+								showLeftIcon={false}
+								className="w-full rounded-md border px-2 py-3"
+							/>
+						</div>
+					)}
 				</section>
 				<div className="flex items-center justify-between gap-10 p-4">
 					<Button

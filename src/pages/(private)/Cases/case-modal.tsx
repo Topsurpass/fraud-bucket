@@ -31,7 +31,7 @@ interface SelectProps {
 export default function CaseModal() {
 	const { isModalOpen, onModalClose, entity, isEdit } = useGlobalProvider();
 
-	const { control, handleSubmit, reset, watch } = useForm<CreateCaseInputs>({
+	const { control, handleSubmit, reset } = useForm<CreateCaseInputs>({
 		resolver: zodResolver(CreateCaseSchema),
 		defaultValues: initialValues,
 	});

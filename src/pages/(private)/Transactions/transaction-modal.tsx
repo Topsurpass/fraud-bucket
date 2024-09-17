@@ -16,6 +16,8 @@ import { ReceiptText } from "lucide-react";
 import useGetMerchant from "@/api/merchant/use-get-merchant";
 import useGetUser from "@/api/users/use-get-users";
 import useGetChannel from "@/api/channels/use-get-channel";
+// import LoadingSpinner from "@/assets/icons/loading-spinner";
+
 
 import {
 	CreateTxnInputs,
@@ -78,7 +80,7 @@ export default function TransactionModal() {
 	}, [Status]);
 
 	const optionsAnalyst = useMemo(() => {
-		return users?.map((user: SelectProps) => ({
+		return users?.data.map((user: SelectProps) => ({
 			value: user.id,
 			label: `${user.lastname} ${user.firstname}`,
 		}));
@@ -169,6 +171,8 @@ export default function TransactionModal() {
 				<DisplayIcon icon={<ReceiptText size={25} color="black" />} />
 			}
 		>
+			{/* {isLoading && <LoadingSpinner className="text-2xl" />} */}
+
 			<form onSubmit={handleSubmit(processForm)}>
 				<section className="flex flex-col space-y-3 p-4">
 					<div>

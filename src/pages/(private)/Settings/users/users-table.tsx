@@ -1,31 +1,35 @@
 import { useMemo, useState } from "react";
-import { Ellipsis, Pencil, Trash2, Download, CirclePlus } from "lucide-react";
+// import LoadingSpinner from "@/assets/icons/loading-spinner";
+import {
+	Download,
+	CirclePlus,
+	Ellipsis,
+	Pencil,
+	Trash2,
+} from "lucide-react";
 import {
 	ColumnDef,
 	PaginationState,
 	VisibilityState,
 } from "@tanstack/react-table";
 import DataTableSSR from "@/components/table/datatable-ssr";
-import { TransactionProps } from "@/types/fraud-txn-schema";
-import useGlobalProvider from "@/hooks/use-global-provider";
-import { EntityType } from "@/types/enum";
-import useGetTransaction from "@/api/transactions/use-get-trxn";
-// import LoadingSpinner from "@/assets/icons/loading-spinner";
 import Button from "@/components/ui/button";
+import { CollaborationProps } from "@/types/collaboration-schema";
+import { EntityType } from "@/types/enum";
+import useGlobalProvider from "@/hooks/use-global-provider";
+import useGetUser from "@/api/users/use-get-users";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FilterStatus } from "@/lib/constants";
-import { TrxnStatus } from "@/types/enum";
 
-export default function FraudTransTable() {
-	const { onModalOpen, onEdit, onDelete } = useGlobalProvider();
-	const [status, setStatus] = useState(TrxnStatus.All);
+export default function UserTable() {
 	const [searchText, setSearchText] = useState("");
+	const { onModalOpen, onEdit, onDelete } = useGlobalProvider();
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>();
+
 	const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 5,
@@ -35,13 +39,14 @@ export default function FraudTransTable() {
 		const params: any = {
 			page: pageIndex + 1,
 			size: pageSize,
-			status,
-			searchText,
 		};
+		if (searchText) {
+			params.searchText = searchText;
+		}
 		return params;
-	}, [searchText, pageIndex, pageSize, status]);
+	}, [searchText, pageIndex, pageSize]);
 
-	const { data, isLoading } = useGetTransaction(mappedParamData);
+	const { data, isLoading } = useGetUser(mappedParamData);
 
 	const pagination = useMemo(() => {
 		return {
@@ -50,51 +55,35 @@ export default function FraudTransTable() {
 		};
 	}, [pageIndex, pageSize]);
 
-	const columns = useMemo<ColumnDef<TransactionProps>[]>(
+	const columns = useMemo<ColumnDef<CollaborationProps>[]>(
 		() => [
 			{
 				accessorKey: "id",
 				header: "#",
 				cell: ({ row }) => (
-					<span className="font-extrabold uppercase">
-						{row.index + 1}
-					</span>
+					<span className="font-bold uppercase">{row.index + 1}</span>
 				),
 				enableHiding: false,
 			},
 			{
-				accessorKey: "date",
-				header: () => <span className="font-bold">Date</span>,
+				accessorKey: "firstname",
+				header: () => <span className="font-bold">Firstname</span>,
 			},
 			{
-				accessorKey: "merchant",
-				header: () => <span className="font-bold">Merchant</span>,
+				accessorKey: "lastname",
+				header: () => <span className="font-bold">Lastname</span>,
 			},
 			{
-				accessorKey: "amount",
-				header: () => <span className="font-bold">Amount</span>,
-				cell: ({ row }) => {
-					const amount = parseFloat(row?.getValue("amount"));
-					return (
-						<span>{new Intl.NumberFormat().format(amount)}</span>
-					);
-				},
+				accessorKey: "email",
+				header: () => <span className="font-bold">Email</span>,
 			},
 			{
-				accessorKey: "type",
-				header: () => <span className="font-bold">Type</span>,
+				accessorKey: "role",
+				header: () => <span className="font-bold">Role</span>,
 			},
 			{
-				accessorKey: "channel",
-				header: () => <span className="font-bold">Channel</span>,
-			},
-			{
-				accessorKey: "analyst",
-				header: () => <span className="font-bold">Caught By</span>,
-			},
-			{
-				accessorKey: "status",
-				header: () => <span className="font-bold">Status</span>,
+				accessorKey: "phone",
+				header: () => <span className="font-bold">Phone</span>,
 			},
 			{
 				header: () => <span className="font-bold">Actions</span>,
@@ -115,7 +104,7 @@ export default function FraudTransTable() {
 								onClick={() => {
 									onEdit({
 										data: row?.row?.original,
-										entity: EntityType.TRANSACTION,
+										entity: EntityType.SETTING_USER,
 									});
 								}}
 							>
@@ -127,34 +116,26 @@ export default function FraudTransTable() {
 								onClick={() =>
 									onDelete({
 										data: row?.row?.original,
-										entity: EntityType.TRANSACTION,
+										entity: EntityType.SETTING_USER,
 									})
 								}
 							>
 								<Trash2 size={18} />
 								<span>Delete</span>
 							</DropdownMenuItem>
+							
 						</DropdownMenuContent>
 					</DropdownMenu>
 				),
 			},
 		],
-		[onEdit],
+		[],
 	);
 
 	return (
 		<section>
+			{/* {isLoading && <LoadingSpinner className="text-2xl" />} */}
 			<div>
-				<div className="flex flex-col gap-3">
-					<div>
-						<h2 className="text-2xl font-semibold">
-							Recent Fraudulent Transactions
-						</h2>
-						<h4 className="text-base text-gray-600">
-							View and add confirmed fraudulent transactions
-						</h4>
-					</div>
-				</div>
 				<section className="mb-3 flex">
 					<div className="ml-auto flex gap-3">
 						<Button
@@ -169,10 +150,12 @@ export default function FraudTransTable() {
 						<Button
 							type="button"
 							className="group flex items-center gap-2 active:bg-blue-200"
-							onClick={() => onModalOpen(EntityType.TRANSACTION)}
+							onClick={() =>
+								onModalOpen(EntityType.SETTING_USER)
+							}
 							variant="outline"
 							size="lg"
-							label="Create New"
+							label="Add User"
 							icon={CirclePlus}
 						/>
 					</div>
@@ -184,17 +167,15 @@ export default function FraudTransTable() {
 				pageCount={data?.pageCount}
 				totalRecords={data?.totalRecords}
 				pagination={pagination}
+				setPagination={setPagination}
 				setSearchText={setSearchText}
 				showColumnVisibility={true}
 				columnVisibility={columnVisibility}
 				setColumnVisibility={setColumnVisibility}
-				filterStatusData={FilterStatus}
-				setPagination={setPagination}
-				showPagination={true}
-				status={status}
-				setStatus={setStatus}
 				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
+				showFilter={false}
+				showPagination={true}
 			/>
 		</section>
 	);

@@ -18,7 +18,7 @@ export default function useGetContact(requestParams: IParameters = {}) {
 						...requestParams,
 					},
 				});
-				return res?.data?.data;
+				return res?.data;
 			} catch (error) {
 				return Promise.reject(error);
 			}

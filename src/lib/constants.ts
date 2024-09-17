@@ -52,6 +52,25 @@ export const Channels = [
 	},
 ];
 
+export const FilterStatus = [
+	{
+		label: "All",
+		value: "",
+	},
+	{
+		label: "Escalated",
+		value: "Escalated",
+	},
+	{
+		label: "Fraudulent",
+		value: "Fraudulent",
+	},
+	{
+		label: "Not Fraudulent",
+		value: "Not Fraudulent",
+	},
+];
+
 export const Status = [
 	{
 		label: "Escalated",

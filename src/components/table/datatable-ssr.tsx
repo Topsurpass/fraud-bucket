@@ -35,9 +35,8 @@ import { TableSkeleton } from "../skeleton/table-skeleton";
 import DataTablePagination from "./datatable-pagination";
 import DatatableSearchInputSSR from "./datatable-search-input";
 import DatatableStatusFilterSsr from "./datatable-status-filter-ssr";
+import DatatableViewOptions from "./datatable-view-options";
 // import DatatableViewOptions from "./datatable-view-options";
-
-// import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -53,13 +52,14 @@ interface DataTableProps<TData, TValue> {
 	setSearchText?: React.Dispatch<React.SetStateAction<string>>;
 	columnVisibility?: any;
 	setColumnVisibility?: any;
-	//   refreshKey?: QueryKeys;
 	setStatus?: React.Dispatch<React.SetStateAction<any>>;
 	status?: any;
 	showFilter?: boolean;
-	showPagination?: boolean;
 	numOfSkeletonColumns?: number;
 	numOfSkeletonRows?: number;
+	filterStatusData?: any[];
+	showPagination?: boolean;
+	showColumnVisibility?: boolean;
 }
 
 export default function DataTableSSR<TData, TValue>({
@@ -68,23 +68,23 @@ export default function DataTableSSR<TData, TValue>({
 	pagination,
 	setPagination,
 	setSearchText,
-	//   refreshKey,
 	pageCount,
 	totalRecords,
 	pageSizeOptions,
 	isLoading = false,
 	isSearchable = true,
 	showFooter = false,
-	showPagination = true,
 	columnVisibility,
 	setColumnVisibility,
 	setStatus = undefined,
 	status = undefined,
+	filterStatusData,
 	showFilter = true,
 	numOfSkeletonColumns = 7,
 	numOfSkeletonRows = 14,
+	showPagination,
+	showColumnVisibility = false,
 }: DataTableProps<TData, TValue>) {
-	//   const queryClient = useQueryClient();
 	const [globalFilter, setGlobalFilter] = useState("");
 
 	const table = useReactTable({
@@ -157,8 +157,11 @@ export default function DataTableSSR<TData, TValue>({
 						<DatatableStatusFilterSsr
 							status={status}
 							setStatus={setStatus}
-							filterData={[]}
+							filterStatusData={filterStatusData}
 						/>
+					)}
+					{showColumnVisibility && (
+						<DatatableViewOptions table={table} />
 					)}
 				</div>
 
@@ -237,15 +240,15 @@ export default function DataTableSSR<TData, TValue>({
 						</TableFooter>
 					)}
 				</Table>
-				{showPagination && (
-					<div className="py-5">
+				<div className="py-5">
+					{showPagination && (
 						<DataTablePagination
 							totalRecords={totalRecords}
 							table={table}
 							pageSizeOptions={pageSizeOptions}
 						/>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 		</div>
 	);

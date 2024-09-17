@@ -14,13 +14,13 @@ import Button from "../ui/button";
 interface IProps {
 	status: any;
 	setStatus?: React.Dispatch<React.SetStateAction<any>>;
-	filterData: any[];
+	filterStatusData?: any[];
 }
 
 export default function DatatableStatusFilterSsr({
 	status,
 	setStatus,
-	filterData,
+	filterStatusData = [],
 }: IProps) {
 	return (
 		<DropdownMenu>
@@ -39,7 +39,7 @@ export default function DatatableStatusFilterSsr({
 					value={status}
 					onValueChange={setStatus}
 				>
-					{filterData.map((item) => {
+					{filterStatusData.map((item) => {
 						return (
 							<DropdownMenuRadioItem
 								key={item.value}

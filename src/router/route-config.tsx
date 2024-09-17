@@ -11,7 +11,7 @@ import Collaboration from "@/pages/(private)/Collaboration";
 import ProtectedRoute from "@/router/ProtectedRoutes";
 import PublicRoute from "@/router/public-route";
 import PublicLayout from "@/layout/public-layout";
-import Configuration from "@/pages/(private)/Settings/settiings";
+// import Configuration from "@/pages/(private)/Settings/settiings";
 import Users from "@/pages/(private)/Settings/users";
 import ChangePassword from "@/pages/(private)/Settings/change-password";
 import Profile from "@/pages/(private)/Settings/profile";
@@ -26,7 +26,7 @@ const routeConfig = [
 		),
 		children: [
 			{
-				index: true,
+				// index: true,
 				path: "/login",
 				element: <Login />,
 			},
@@ -69,10 +69,7 @@ const routeConfig = [
 				element: <SettingsLayout />,
 				children: [
 					{
-						index: true,
-						element: <Configuration />,
-					},
-					{
+						// index: true,
 						path: "users",
 						element: <Users />,
 					},

@@ -1,6 +1,6 @@
 import { GrTransaction } from "react-icons/gr";
-import { IoIosBriefcase, IoMdAnalytics } from "react-icons/io";
-import { SiMicrosoftexcel } from "react-icons/si";
+// import { IoIosBriefcase, IoMdAnalytics } from "react-icons/io";
+// import { SiMicrosoftexcel } from "react-icons/si";
 import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { TfiDashboard } from "react-icons/tfi";
 import { IoMoonSharp } from "react-icons/io5";
@@ -41,7 +41,7 @@ export const navLinks = [
 	},
 	{
 		name: "Settings",
-		path: "/settings",
+		path: "/settings/users",
 		icon: <MdOutlineSettings />,
 	},
 ];
@@ -49,11 +49,11 @@ export const navLinks = [
 export const Links = [
 	{
 		label: "My Profile",
-		href: "/profile",
+		href: "/settings/profile",
 	},
 	{
 		label: "Change Password",
-		href: "/profile/change_password",
+		href: "/settings/change-password",
 	},
 ];
 
