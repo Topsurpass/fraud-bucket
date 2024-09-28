@@ -54,6 +54,8 @@ export default function MerchantFraudTable() {
 				isSearchable={false}
 				showFilter={false}
 				showPagination={false}
+				numOfSkeletonColumns={4}
+				numOfSkeletonRows={5}
 			/>
 		</section>
 	);

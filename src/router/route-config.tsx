@@ -15,6 +15,8 @@ import PublicLayout from "@/layout/public-layout";
 import Users from "@/pages/(private)/Settings/users";
 import ChangePassword from "@/pages/(private)/Settings/change-password";
 import Profile from "@/pages/(private)/Settings/profile";
+import ForgotPassword from "@/pages/(public)/forgot-password";
+import ResetPassword from "@/pages/(public)/reset-password";
 
 const routeConfig = [
 	{
@@ -29,6 +31,14 @@ const routeConfig = [
 				index: true,
 				path: "/login",
 				element: <Login />,
+			},
+			{
+				path: "forgot-password",
+				element: <ForgotPassword />,
+			},
+			{
+				path: "/reset-password/:passcode?",
+				element: <ResetPassword />,
 			},
 		],
 	},

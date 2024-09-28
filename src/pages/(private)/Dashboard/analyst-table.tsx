@@ -62,6 +62,8 @@ export default function AnalystTable() {
 				showFooter={false}
 				isSearchable={false}
 				showPagination={false}
+				numOfSkeletonColumns={4}
+				numOfSkeletonRows={5}
 			/>
 		</section>
 	);

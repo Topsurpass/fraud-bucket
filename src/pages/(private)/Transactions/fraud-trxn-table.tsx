@@ -63,12 +63,25 @@ export default function FraudTransTable() {
 				enableHiding: false,
 			},
 			{
-				accessorKey: "date",
+				accessorKey: "createdAt",
 				header: () => <span className="font-bold">Date</span>,
+				cell: ({ row }) => {
+					const date = new Date(row.original.createdAt);
+					const formattedDate = new Intl.DateTimeFormat("en-US", {
+						year: "numeric",
+						month: "numeric",
+						day: "numeric",
+						hour: "2-digit",
+						minute: "2-digit",
+						hour12: false,
+					}).format(date);
+					return <span>{formattedDate}</span>;
+				},
 			},
 			{
 				accessorKey: "merchant",
 				header: () => <span className="font-bold">Merchant</span>,
+				cell: ({ row }) => <span>{row.original.merchant.name}</span>,
 			},
 			{
 				accessorKey: "amount",
@@ -87,10 +100,14 @@ export default function FraudTransTable() {
 			{
 				accessorKey: "channel",
 				header: () => <span className="font-bold">Channel</span>,
+				cell: ({ row }) => <span>{row.original.channel.name}</span>,
 			},
 			{
 				accessorKey: "analyst",
 				header: () => <span className="font-bold">Caught By</span>,
+				cell: ({ row }) => (
+					<span>{`${row.original.analyst.lastname} ${row.original.analyst.firstname}`}</span>
+				),
 			},
 			{
 				accessorKey: "status",

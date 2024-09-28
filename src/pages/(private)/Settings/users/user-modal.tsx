@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
-import { TextField, PasswordField } from "@/components/ui/forms";
+import { TextField, PasswordField, ReactSelect } from "@/components/ui/forms";
 import useGlobalProvider from "@/hooks/use-global-provider";
 import QueryKeys from "@/api/query-keys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { EntityType, RequestMethod } from "@/types/enum";
 import useMutateUser from "@/api/users/use-mutate-user";
 import LoadingSpinner from "@/assets/icons/loading-spinner";
-
+import { RolesData } from "@/lib/constants";
 
 import {
 	SettingUserInputs,
@@ -23,7 +23,8 @@ const initialValues = {
 	lastname: "",
 	email: "",
 	phone: "",
-	role: "",
+	jobTitle: "",
+	role: {},
 };
 
 export default function UserModal() {
@@ -42,9 +43,10 @@ export default function UserModal() {
 		const requestPayload = {
 			firstname: rest?.firstname,
 			lastname: rest?.lastname,
-			role: rest?.role,
+			jobTitle: rest?.jobTitle,
 			email: rest?.email,
 			phone: rest?.phone,
+			role: rest?.role.value,
 		} as any;
 
 		if (!isEdit) {
@@ -70,22 +72,31 @@ export default function UserModal() {
 					reset();
 				},
 				onError: (err: any) => {
-					console.log(formData);
-					console.log(err);
 					toast.error(err.response.data.error);
 				},
 			},
 		);
 	};
 
+	const optionsRole = useMemo(() => {
+		return RolesData?.map((role) => ({
+			value: role.value,
+			label: role.label,
+		}));
+	}, [RolesData]);
+
 	useEffect(() => {
 		if (isEdit && formData) {
 			reset({
 				firstname: formData?.firstname,
 				lastname: formData?.lastname,
-				role: formData?.role,
+				jobTitle: formData?.jobTitle,
 				email: formData?.email,
 				phone: formData?.phone,
+				role: {
+					value: formData?.role,
+					label: formData?.role,
+				},
 			});
 		}
 	}, [formData, reset, isEdit]);
@@ -105,6 +116,7 @@ export default function UserModal() {
 
 			<form onSubmit={() => {}}>
 				{/* <pre>{JSON.stringify(watch(), null, 2)}</pre> */}
+
 				<section className="grid grid-cols-2 gap-3 p-4">
 					<div>
 						<TextField
@@ -142,10 +154,19 @@ export default function UserModal() {
 					</div>
 					<div>
 						<TextField
-							label="Role"
-							name="role"
+							label="Job Tile"
+							name="jobTitle"
 							control={control}
 							className="h-[45px] w-full rounded-md border p-2"
+						/>
+					</div>
+					<div>
+						<ReactSelect
+							label="Role"
+							control={control}
+							name="role"
+							options={optionsRole}
+							isDisabled={false}
 						/>
 					</div>
 					{!isEdit && (

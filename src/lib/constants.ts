@@ -85,3 +85,14 @@ export const Status = [
 		value: "Not Fraudulent",
 	},
 ];
+
+export const RolesData = [
+	{
+		label: "USER",
+		value: "USER",
+	},
+	{
+		label: "ADMIN",
+		value: "ADMIN",
+	},
+];

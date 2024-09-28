@@ -1,8 +1,9 @@
 export type TransactionProps = {
-	merchant: string;
+	merchant: { name: string };
 	date: string;
 	amount: number;
-	analyst: string;
+	analyst: { firstname: string; lastname: string };
 	type: string;
-	channel: string;
+	channel: { name: string };
+	createdAt: string;
 };

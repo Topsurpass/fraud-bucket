@@ -13,7 +13,6 @@ import useMutateContact from "@/api/fraud-contact.ts/use-mutate-contact";
 import useGetMerchant from "@/api/merchant/use-get-merchant";
 import LoadingSpinner from "@/assets/icons/loading-spinner";
 
-
 import {
 	CreateContactInputs,
 	CreateContactSchema,
@@ -31,6 +30,7 @@ interface SelectProps {
 	value: string;
 	id?: string;
 	merchant?: string;
+	name?: string;
 }
 
 export default function CollaborationModal() {
@@ -39,10 +39,11 @@ export default function CollaborationModal() {
 	const { data: merchant, isPending: loading } = useGetMerchant();
 	const { mutate: mutateContact, isPending } = useMutateContact();
 	const queryClient = useQueryClient();
-	const { control, handleSubmit, reset } = useForm<CreateContactInputs>({
-		resolver: zodResolver(CreateContactSchema),
-		defaultValues: initialValues,
-	});
+	const { control, handleSubmit, reset } =
+		useForm<CreateContactInputs>({
+			resolver: zodResolver(CreateContactSchema),
+			defaultValues: initialValues,
+		});
 
 	const processForm: SubmitHandler<CreateContactInputs> = async (payload) => {
 		const requestPayload = {
@@ -81,7 +82,7 @@ export default function CollaborationModal() {
 	const optionsMerchant = useMemo(() => {
 		return merchant?.map((merchant: SelectProps) => ({
 			value: merchant.id,
-			label: merchant.merchant,
+			label: merchant.name,
 		}));
 	}, [merchant]);
 
@@ -90,8 +91,8 @@ export default function CollaborationModal() {
 			reset({
 				name: formData?.name,
 				merchant: {
-					value: formData.merchantId,
-					label: formData?.merchant,
+					value: formData.merchant.id,
+					label: formData?.merchant.name,
 				},
 				email: formData?.email,
 				phone: formData?.phone,

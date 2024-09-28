@@ -1,4 +1,4 @@
-import  { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EntityType, RequestMethod } from "@/types/enum";
@@ -18,7 +18,6 @@ import useGetUser from "@/api/users/use-get-users";
 import useGetChannel from "@/api/channels/use-get-channel";
 // import LoadingSpinner from "@/assets/icons/loading-spinner";
 
-
 import {
 	CreateTxnInputs,
 	CreateTxnSchema,
@@ -37,7 +36,7 @@ interface SelectProps {
 	label?: string;
 	value?: string;
 	id?: string;
-	merchant?: string;
+	name?: string;
 	firstname?: string;
 	lastname?: string;
 	channel?: string;
@@ -61,7 +60,7 @@ export default function TransactionModal() {
 	const optionsChannel = useMemo(() => {
 		return channel?.map((channel: SelectProps) => ({
 			value: channel.id,
-			label: channel.channel,
+			label: channel.name,
 		}));
 	}, [channel]);
 
@@ -89,7 +88,7 @@ export default function TransactionModal() {
 	const optionsMerchant = useMemo(() => {
 		return merchant?.map((merchant: SelectProps) => ({
 			value: merchant.id,
-			label: merchant.merchant,
+			label: merchant.name,
 		}));
 	}, [merchant]);
 
@@ -97,8 +96,8 @@ export default function TransactionModal() {
 		if (isEdit && formData) {
 			reset({
 				merchant: {
-					value: formData.merchantId,
-					label: formData?.merchant,
+					value: formData.merchant.id,
+					label: formData?.merchant.name,
 				},
 				amount: formData?.amount,
 				type: {
@@ -106,12 +105,12 @@ export default function TransactionModal() {
 					label: formData?.type,
 				},
 				analyst: {
-					value: formData.analystId,
-					label: formData?.analyst,
+					value: formData?.analyst.id,
+					label: `${formData?.analyst.lastname} ${formData?.analyst.firstname}`,
 				},
 				channel: {
-					value: formData?.channelId,
-					label: formData?.channel,
+					value: formData?.channel.id,
+					label: formData?.channel.name,
 				},
 				status: {
 					value: formData?.status,

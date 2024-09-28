@@ -6,7 +6,7 @@ import { Toaster as SonnerToaster } from "sonner";
 export default function ToastProvider() {
 	return (
 		<SonnerToaster
-			position="bottom-right"
+			position="top-right"
 			richColors
 			offset={50}
 			closeButton

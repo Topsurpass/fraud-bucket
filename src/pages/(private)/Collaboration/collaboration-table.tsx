@@ -72,6 +72,7 @@ export default function CollaborationTable() {
 			{
 				accessorKey: "merchant",
 				header: () => <span className="font-bold">Merchant</span>,
+				cell: ({ row }) => <span>{row.original.merchant.name}</span>,
 			},
 			{
 				accessorKey: "email",

@@ -27,7 +27,7 @@ export default function HomePage() {
 	const { control, handleSubmit } = useForm<LoginInputs>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
-			email: "mezu@fraud.com",
+			email: "admin@fraud.com",
 			password: "Adminfraud",
 		},
 	});

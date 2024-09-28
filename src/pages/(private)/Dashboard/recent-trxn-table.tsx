@@ -22,12 +22,25 @@ export default function RecentTransTable() {
 	const columns = useMemo<ColumnDef<TransactionProps>[]>(
 		() => [
 			{
-				accessorKey: "date",
+				accessorKey: "createdAt",
 				header: () => <span className="font-bold">Date</span>,
+				cell: ({ row }) => {
+					const date = new Date(row.original.createdAt);
+					const formattedDate = new Intl.DateTimeFormat("en-US", {
+						year: "numeric",
+						month: "numeric",
+						day: "numeric",
+						hour: "2-digit",
+						minute: "2-digit",
+						hour12: false,
+					}).format(date);
+					return <span>{formattedDate}</span>;
+				},
 			},
 			{
 				accessorKey: "merchant",
 				header: () => <span className="font-bold">Merchant</span>,
+				cell: ({ row }) => <span>{row.original.merchant.name}</span>,
 			},
 			{
 				accessorKey: "amount",
@@ -44,8 +57,9 @@ export default function RecentTransTable() {
 				header: () => <span className="font-bold">Type</span>,
 			},
 			{
-				accessorKey: "analyst",
-				header: () => <span className="font-bold">Analyst</span>,
+				accessorKey: "channel",
+				header: () => <span className="font-bold">Channel</span>,
+				cell: ({ row }) => <span>{row.original.channel.name}</span>,
 			},
 		],
 		[],
@@ -66,6 +80,8 @@ export default function RecentTransTable() {
 				isSearchable={false}
 				showFilter={false}
 				showPagination={false}
+				numOfSkeletonColumns={3}
+				numOfSkeletonRows={3}
 			/>
 		</section>
 	);

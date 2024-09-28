@@ -1,12 +1,5 @@
 import { useMemo, useState } from "react";
-// import LoadingSpinner from "@/assets/icons/loading-spinner";
-import {
-	Download,
-	CirclePlus,
-	Ellipsis,
-	Pencil,
-	Trash2,
-} from "lucide-react";
+import { Download, CirclePlus, Ellipsis, Pencil, Trash2 } from "lucide-react";
 import {
 	ColumnDef,
 	PaginationState,
@@ -78,6 +71,10 @@ export default function UserTable() {
 				header: () => <span className="font-bold">Email</span>,
 			},
 			{
+				accessorKey: "jobTitle",
+				header: () => <span className="font-bold">Job Title</span>,
+			},
+			{
 				accessorKey: "role",
 				header: () => <span className="font-bold">Role</span>,
 			},
@@ -123,7 +120,6 @@ export default function UserTable() {
 								<Trash2 size={18} />
 								<span>Delete</span>
 							</DropdownMenuItem>
-							
 						</DropdownMenuContent>
 					</DropdownMenu>
 				),
@@ -150,9 +146,7 @@ export default function UserTable() {
 						<Button
 							type="button"
 							className="group flex items-center gap-2 active:bg-blue-200"
-							onClick={() =>
-								onModalOpen(EntityType.SETTING_USER)
-							}
+							onClick={() => onModalOpen(EntityType.SETTING_USER)}
 							variant="outline"
 							size="lg"
 							label="Add User"

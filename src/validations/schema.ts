@@ -11,6 +11,11 @@ export const phoneSchema = z.string().refine(validator.isMobilePhone, {
 	message: "Invalid phone number",
 });
 
+export const passwordSchema = z
+	.string()
+	.min(6, { message: "Password must be at least 6 characters" });
+
+
 export const SelectSchema = z
 	.object({
 		label: z.string().optional(),

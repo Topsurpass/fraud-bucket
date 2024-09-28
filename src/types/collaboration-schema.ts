@@ -1,6 +1,6 @@
 export type CollaborationProps = {
+	merchant: { name: string };
 	name: string;
-	institution: string;
 	email: string;
 	phone: string;
 };

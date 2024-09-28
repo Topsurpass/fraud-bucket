@@ -1,5 +1,7 @@
 import { z } from "zod";
 import validator from "validator";
+import { SelectSchema } from "./schema";
+
 
 export const SettingUserSchema = (isEdit: boolean) =>
 	z.object({
@@ -15,12 +17,13 @@ export const SettingUserSchema = (isEdit: boolean) =>
 			.string()
 			.min(1, { message: "Email is required" })
 			.email({ message: "Invalid email address" }),
-		role: z.string().min(1, { message: "Role is required" }),
+		jobTitle: z.string().min(1, { message: "Job title is required" }),
 		password: isEdit
 			? z.string().optional()
 			: z.string().min(6, {
 					message: "Password must be at least 6 characters",
 				}),
+		role: SelectSchema,
 	});
 
 export type SettingUserInputs = z.infer<ReturnType<typeof SettingUserSchema>>;

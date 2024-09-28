@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "@/@config";
 import useAuthStore from "@/stores/user-store";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 // PUBLIC HTTP client
 export const HTTP = axios.create({
@@ -33,9 +33,9 @@ AuthHTTP.interceptors.request.use(
 			setting.headers.Authorization = `Bearer ${token}`;
 			return setting;
 		} else {
-			toast.error("Session Expired", {
-				description: "Please Login again.",
-			});
+			// toast.error("Session Expired", {
+			// 	description: "Please Login again.",
+			// });
 			reset();
 			useNavigate()("/login");
 			return;
