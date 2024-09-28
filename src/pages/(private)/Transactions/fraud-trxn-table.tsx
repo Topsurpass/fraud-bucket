@@ -212,6 +212,8 @@ export default function FraudTransTable() {
 				setStatus={setStatus}
 				isLoading={isLoading}
 				pageSizeOptions={[5, 10, 20, 30, 50]}
+				numOfSkeletonColumns={7}
+				numOfSkeletonRows={5}
 			/>
 		</section>
 	);

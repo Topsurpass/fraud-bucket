@@ -170,6 +170,8 @@ export default function UserTable() {
 				pageSizeOptions={[5, 10, 20, 30, 50]}
 				showFilter={false}
 				showPagination={true}
+				numOfSkeletonColumns={7}
+				numOfSkeletonRows={5}
 			/>
 		</section>
 	);
